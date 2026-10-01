@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZEVUNOR - More Than Just Gifts</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,sans-serif}
+body{background:#fafafa;color:#1a1a1a}
+a{text-decoration:none;color:inherit;cursor:pointer}
+button{cursor:pointer;border:none;font-family:inherit}
+.header{background:#0d1b2a;color:white;padding:15px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000}
+.logo{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:bold;letter-spacing:2px}
+.logo-main{font-size:22px;letter-spacing:3px}
+.logo-main span{color:#d4af37}
+.logo-sub{font-size:9px;letter-spacing:2px;color:#d4af37;margin-top:3px}
+.nav{display:flex;gap:25px;align-items:center}
+.nav a{font-size:14px;color:white;transition:color .3s}
+.nav a:hover{color:#d4af37}
+.nav-dropdown{position:relative}
+.nav-dropdown-content{display:none;position:absolute;top:100%;left:-10px;background:white;min-width:240px;box-shadow:0 8px 25px rgba(0,0,0,.15);border-radius:8px;padding:10px 0;z-index:100;margin-top:10px}
+.nav-dropdown:hover .nav-dropdown-content{display:block}
+.nav-dropdown-content a{display:block;padding:10px 20px;color:#333;font-size:13px}
+.nav-dropdown-content a:hover{background:#f5f5f5;color:#d4af37}
+.header-right{display:flex;align-items:center;gap:18px}
+.search-box{background:#1a2d42;border:1px solid #2a3d52;padding:9px 18px;border-radius:25px;color:white;width:220px;font-size:13px}
+.search-box::placeholder{color:#888}
+.icon-btn{background:none;color:white;font-size:20px;position:relative;padding:5px}
+.cart-count{position:absolute;top:-6px;right:-6px;background:#d4af37;color:#000;border-radius:50%;width:18px;height:18px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:bold}
+.lang-switch{position:relative}
+.lang-current{background:#1a2d42;padding:6px 14px;border-radius:20px;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:13px}
+.lang-dropdown{display:none;position:absolute;top:100%;right:0;background:white;min-width:180px;box-shadow:0 8px 25px rgba(0,0,0,.15);border-radius:8px;padding:8px 0;z-index:200;margin-top:8px}
+.lang-switch.open .lang-dropdown{display:block}
+.lang-option{padding:10px 18px;font-size:13px;color:#333;cursor:pointer;display:flex;align-items:center;gap:10px}
+.lang-option:hover{background:#f5f5f5}
+.lang-option.active{background:#fff9e6;color:#d4af37;font-weight:bold}
+.hero{background:linear-gradient(rgba(13,27,42,.75),rgba(13,27,42,.55)),url('https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=1600&q=80') center/cover;color:white;padding:70px 60px 40px;min-height:520px;display:flex;align-items:center;position:relative}
+.hero-content{max-width:650px;z-index:2}
+.hero-subtitle-top{font-size:14px;letter-spacing:6px;color:#d4af37;margin-bottom:15px;font-weight:600}
+.hero h1{font-size:52px;line-height:1.1;margin-bottom:15px;font-weight:800;text-transform:uppercase}
+.hero h1 .gold{color:#d4af37;display:block}
+.hero .description{font-size:18px;line-height:1.5;margin:20px 0 30px;opacity:.95;max-width:550px}
+.btn-primary-hero{background:#d4af37;color:#0d1b2a;padding:16px 38px;border-radius:30px;font-weight:bold;font-size:15px;display:inline-flex;align-items:center;gap:10px;transition:all .3s;border:none}
+.btn-primary-hero:hover{background:#f4d03f;transform:translateY(-2px);box-shadow:0 10px 25px rgba(212,175,55,.4)}
+.hero-benefits{position:absolute;right:60px;bottom:30px;display:flex;gap:30px;z-index:2;flex-wrap:wrap;max-width:700px}
+.hero-benefit{display:flex;align-items:center;gap:12px;font-size:13px}
+.hero-benefit .icon{width:42px;height:42px;border:1px solid rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.categories-section{padding:50px 40px;max-width:1400px;margin:0 auto}
+.categories-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:15px}
+.category-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:all .3s;border:1px solid #eee}
+.category-card:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(0,0,0,.12);border-color:#d4af37}
+.category-card-img{height:140px;background:#eee;display:flex;align-items:center;justify-content:center;font-size:60px;overflow:hidden}
+.category-card-img img{width:100%;height:100%;object-fit:cover}
+.category-card-content{padding:15px}
+.category-card-content h4{font-size:14px;margin-bottom:5px;font-weight:600}
+.category-card-content p{font-size:11px;color:#888;margin-bottom:8px}
+.category-card-content .arrow{color:#d4af37;font-weight:bold;font-size:18px}
+.how-section{background:#f0f4f8;padding:60px 40px}
+.how-container{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 350px;gap:40px;align-items:center}
+.how-title{font-size:28px;font-weight:bold;margin-bottom:10px}
+.how-subtitle{color:#666;margin-bottom:30px}
+.how-steps{display:flex;gap:20px;align-items:flex-start}
+.how-step{flex:1;text-align:center}
+.how-step-num{width:50px;height:50px;background:#0d1b2a;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:20px;margin:0 auto 15px}
+.how-step-icon{font-size:36px;margin-bottom:10px}
+.how-step h4{font-size:14px;margin-bottom:5px}
+.how-step p{font-size:12px;color:#666}
+.how-arrow{color:#d4af37;font-size:24px;margin-top:15px}
+.gift-promo{background:#0d1b2a;color:white;border-radius:15px;padding:30px;display:flex;gap:20px;align-items:center}
+.gift-promo-img{width:120px;height:120px;background:linear-gradient(135deg,#d4af37,#f4d03f);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:50px;flex-shrink:0}
+.gift-promo h3{font-size:18px;margin-bottom:10px}
+.gift-promo p{font-size:13px;opacity:.9;margin-bottom:15px}
+.btn-outline{background:transparent;border:2px solid white;color:white;padding:10px 20px;border-radius:25px;font-size:13px;font-weight:600;cursor:pointer}
+.btn-outline:hover{background:white;color:#0d1b2a}
+.products-section{padding:60px 40px;max-width:1400px;margin:0 auto}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.section-title{font-size:26px;font-weight:bold}
+.view-all{color:#0d1b2a;font-size:14px;font-weight:600}
+.view-all:hover{color:#d4af37}
+.products-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:15px}
+.product-card{background:white;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:all .3s}
+.product-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.product-img{height:160px;background:#eee;display:flex;align-items:center;justify-content:center;font-size:60px;overflow:hidden;position:relative}
+.product-img img{width:100%;height:100%;object-fit:cover}
+.product-info{padding:12px}
+.product-name{font-size:13px;margin-bottom:5px;font-weight:500}
+.product-price{font-size:18px;font-weight:bold;color:#0d1b2a;margin-bottom:5px}
+.product-rating{display:flex;align-items:center;gap:5px;font-size:12px;color:#d4af37}
+.product-rating .count{color:#888}
+.reviews-section{background:#f8f9fa;padding:60px 40px}
+.reviews-container{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.review-card{background:white;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:15px}
+.review-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.review-avatar{width:45px;height:45px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:white;font-weight:bold}
+.review-name{font-weight:bold;font-size:14px}
+.review-date{font-size:12px;color:#888}
+.review-stars{color:#d4af37;font-size:14px;margin-bottom:10px}
+.review-text{font-size:13px;color:#555;line-height:1.6;margin-bottom:12px}
+.review-img{width:80px;height:80px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:40px}
+.bottom-section{padding:60px 40px;max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.business-block{background:linear-gradient(135deg,#0d1b2a,#1a2d42);color:white;border-radius:15px;padding:35px;position:relative;overflow:hidden}
+.business-block h3{font-size:22px;margin-bottom:12px}
+.business-block p{font-size:14px;opacity:.9;margin-bottom:20px;line-height:1.6}
+.business-qr{position:absolute;right:30px;bottom:30px;width:120px;height:120px;background:white;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:60px}
+.social-block h3{font-size:22px;margin-bottom:10px}
+.social-block p{color:#666;font-size:14px;margin-bottom:20px}
+.social-links{display:flex;gap:20px;margin-bottom:20px}
+.social-link{display:flex;align-items:center;gap:10px}
+.social-icon{width:45px;height:45px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+.social-icon.instagram{background:linear-gradient(135deg,#f094fb,#ee4c8f);color:white}
+.social-icon.tiktok{background:#000;color:white}
+.social-link-text{font-size:13px}
+.social-link-text strong{display:block}
+.social-gallery{display:flex;gap:10px;overflow-x:auto}
+.social-gallery-item{width:80px;height:80px;background:#eee;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:30px}
+.footer{background:#0d1b2a;color:white;padding:50px 40px 20px}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1.5fr;gap:30px;max-width:1400px;margin:0 auto 30px}
+.footer-logo{font-size:22px;font-weight:bold;letter-spacing:2px;margin-bottom:10px}
+.footer-logo span{color:#d4af37}
+.footer-slogan{font-size:13px;opacity:.8;margin-bottom:15px}
+.social-icons{display:flex;gap:12px;font-size:20px}
+.social-icons a{color:white;opacity:.8;transition:all .3s;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1)}
+.social-icons a:hover{opacity:1;background:#d4af37;color:#0d1b2a;transform:translateY(-3px)}
+.footer h4{font-size:14px;margin-bottom:15px;color:#d4af37}
+.footer a{display:block;color:#aaa;font-size:13px;margin-bottom:8px;transition:color .3s}
+.footer a:hover{color:#d4af37}
+.subscribe-form{display:flex;margin-top:10px}
+.subscribe-form input{flex:1;padding:10px;border:none;border-radius:6px 0 0 6px;font-size:13px}
+.subscribe-form button{background:#d4af37;color:#000;padding:10px 15px;border-radius:0 6px 6px 0;font-weight:bold}
+.footer-bottom{border-top:1px solid #1a2d42;padding-top:20px;display:flex;justify-content:space-between;font-size:12px;color:#888;max-width:1400px;margin:0 auto;flex-wrap:wrap;gap:10px}
+.footer-bottom a{color:#888;margin-left:15px;display:inline}
+.footer-bottom a:hover{color:#d4af37}
+.info-page{max-width:900px;margin:40px auto;padding:40px;background:white;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.info-page h1{font-size:32px;margin-bottom:20px;color:#0d1b2a;border-bottom:3px solid #d4af37;padding-bottom:15px}
+.info-page h2{font-size:22px;margin:25px 0 15px;color:#0d1b2a}
+.info-page h3{font-size:18px;margin:20px 0 10px;color:#333}
+.info-page p{font-size:15px;line-height:1.7;color:#555;margin-bottom:15px}
+.info-page ul,.info-page ol{margin:15px 0 15px 30px;color:#555}
+.info-page li{margin-bottom:8px;line-height:1.6}
+.info-page .highlight{background:#fff9e6;padding:15px;border-left:4px solid #d4af37;border-radius:6px;margin:20px 0}
+.breadcrumb{font-size:13px;color:#888;margin-bottom:20px}
+.breadcrumb a{color:#667eea}
+.breadcrumb a:hover{color:#d4af37}
+.category-layout{display:grid;grid-template-columns:260px 1fr;gap:30px;max-width:1400px;margin:0 auto;padding:40px}
+.filters-sidebar{background:white;border-radius:12px;padding:25px;height:fit-content;box-shadow:0 2px 10px rgba(0,0,0,.05);position:sticky;top:100px}
+.filter-section{margin-bottom:25px;border-bottom:1px solid #eee;padding-bottom:20px}
+.filter-title{font-size:15px;font-weight:bold;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.filter-title .arrow{transition:transform .3s}
+.filter-title.collapsed .arrow{transform:rotate(-90deg)}
+.filter-list{list-style:none}
+.filter-list li{padding:8px 0;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:color .2s}
+.filter-list li:hover{color:#d4af37}
+.filter-list li.active{color:#d4af37;font-weight:bold}
+.filter-list input[type="checkbox"]{margin-right:8px;accent-color:#d4af37}
+.price-slider{width:100%;margin:15px 0;accent-color:#d4af37}
+.price-range{display:flex;justify-content:space-between;font-size:12px;color:#666}
+.btn-apply-filters{width:100%;background:#d4af37;color:#0d1b2a;padding:12px;border-radius:8px;font-weight:bold;margin-top:15px}
+.constructor-choice-page{max-width:1200px;margin:40px auto;padding:40px}
+.constructor-choice-header{text-align:center;margin-bottom:40px}
+.constructor-choice-header h1{font-size:36px;margin-bottom:15px;color:#0d1b2a}
+.constructor-choice-header h1 .gold{color:#d4af37}
+.constructor-choice-header p{font-size:16px;color:#666}
+.constructor-types-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:40px}
+.constructor-type-card{background:white;border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.08);cursor:pointer;transition:all .3s;border:2px solid transparent;text-align:center}
+.constructor-type-card:hover{transform:translateY(-8px);box-shadow:0 12px 30px rgba(0,0,0,.15);border-color:#d4af37}
+.constructor-type-img{height:180px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;font-size:80px}
+.constructor-type-content{padding:20px}
+.constructor-type-content h3{font-size:18px;margin-bottom:8px;color:#0d1b2a}
+.constructor-type-content p{font-size:13px;color:#666;margin-bottom:15px}
+.constructor-type-btn{background:#d4af37;color:#0d1b2a;padding:10px 20px;border-radius:20px;font-weight:bold;font-size:13px;display:inline-block}
+.constructor-steps-bar{display:flex;gap:10px;margin-bottom:30px;background:white;padding:20px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.c-step{flex:1;text-align:center;padding:15px;border-radius:8px;cursor:pointer;transition:all .3s;border:2px solid transparent}
+.c-step.active{background:#d4af37;color:#0d1b2a;border-color:#d4af37}
+.c-step-num{font-weight:bold;font-size:20px;margin-bottom:5px}
+.c-step-title{font-size:13px}
+.constructor-workspace{background:white;padding:30px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);min-height:400px}
+.constructor-workspace h2{margin-bottom:20px;font-size:24px}
+.upload-zone{border:2px dashed #d4af37;border-radius:12px;padding:60px;text-align:center;cursor:pointer;transition:all .3s;margin-bottom:20px;background:#fffef5}
+.upload-zone:hover{background:#fff9e6}
+.upload-zone .icon{font-size:60px;margin-bottom:15px}
+.upload-zone h3{margin-bottom:10px}
+.upload-zone p{color:#888;font-size:14px}
+.photo-preview-container{width:100%;max-width:500px;margin:0 auto 20px;border-radius:12px;overflow:hidden;background:#f5f5f5;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}
+.photo-preview-container img{max-width:100%;max-height:100%;object-fit:contain}
+.editor-tools{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.editor-canvas{background:#f5f5f5;border-radius:10px;padding:20px;min-height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.editor-canvas img{max-width:100%;max-height:400px;object-fit:contain;border-radius:8px}
+.editor-controls{display:flex;flex-direction:column;gap:12px}
+.editor-control-group label{display:block;font-weight:bold;margin-bottom:6px;font-size:13px}
+.editor-control-group input,.editor-control-group select{width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px}
+.size-options{display:flex;gap:10px;flex-wrap:wrap}
+.size-option{padding:12px 18px;border:2px solid #ddd;border-radius:8px;cursor:pointer;text-align:center;transition:all .2s}
+.size-option:hover{border-color:#d4af37}
+.size-option.active{border-color:#d4af37;background:#fff9e6}
+.size-option .size-name{font-weight:bold;font-size:14px}
+.size-option .size-price{font-size:12px;color:#888;margin-top:3px}
+.price-display{background:linear-gradient(135deg,#0d1b2a,#1a2d42);color:white;padding:20px;border-radius:10px;margin:20px 0;display:flex;justify-content:space-between;align-items:center}
+.price-display .label{font-size:14px;opacity:.8}
+.price-display .total{font-size:32px;font-weight:bold;color:#d4af37}
+.btn-primary{background:#d4af37;color:#000;padding:12px;width:100%;border-radius:6px;font-weight:bold;font-size:16px;margin-bottom:10px}
+.btn-primary:hover{background:#f4d03f}
+.btn-whatsapp{background:#25D366;color:white;padding:14px;width:100%;border-radius:8px;font-weight:bold;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px}
+.btn-whatsapp:hover{background:#128C7E}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center}
+.modal.active{display:flex}
+.modal-content{background:white;padding:30px;border-radius:12px;width:90%;max-width:700px;max-height:90vh;overflow-y:auto}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.close-modal{font-size:24px;cursor:pointer;background:none;border:none}
+.form-group{margin-bottom:15px}
+.form-group label{display:block;margin-bottom:5px;font-weight:bold;font-size:14px}
+.form-group input,.form-group select{width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px}
+@media (max-width:1200px){.categories-grid{grid-template-columns:repeat(4,1fr)}.products-grid{grid-template-columns:repeat(3,1fr)}.footer-grid{grid-template-columns:repeat(3,1fr)}.how-container{grid-template-columns:1fr}.reviews-container{grid-template-columns:1fr}.bottom-section{grid-template-columns:1fr}.constructor-types-grid{grid-template-columns:repeat(2,1fr)}.editor-tools{grid-template-columns:1fr}.category-layout{grid-template-columns:1fr}.filters-sidebar{position:static}}
+@media (max-width:768px){.header{padding:10px 15px;flex-wrap:wrap}.nav{display:none}.search-box{width:150px}.hero{padding:40px 20px;min-height:auto}.hero h1{font-size:32px}.hero-benefits{position:static;margin-top:30px}.categories-grid{grid-template-columns:repeat(2,1fr)}.products-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr}.constructor-types-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="logo" onclick="showPage('home')" style="cursor:pointer">
+<div style="width:42px;height:42px;background:linear-gradient(135deg,#f4d03f,#d4af37);border-radius:50% 0 50% 0;display:flex;align-items:center;justify-content:center;font-size:24px">🍃</div>
+<div style="display:flex;flex-direction:column;line-height:1">
+<div class="logo-main">ZEVUNOR<span>.</span></div>
+<div class="logo-sub">MORE THAN JUST GIFTS</div>
+</div>
+</div>
+<nav class="nav">
+<a onclick="showPage('home')" data-i18n="nav_home">Главная</a>
+<div class="nav-dropdown">
+<a data-i18n="nav_catalog">Каталог ▾</a>
+<div class="nav-dropdown-content">
+<a onclick="showCategory('Магниты')" data-i18n="cat_magnets">🖼️ Магниты</a>
+<a onclick="showCategory('Термосы')" data-i18n="cat_thermos">🍶 Термосы</a>
+<a onclick="showCategory('3D-печать')" data-i18n="cat_3d">🐉 3D-печать</a>
+<a onclick="showCategory('Одежда')" data-i18n="cat_clothes">👕 Одежда</a>
+<a onclick="showCategory('Кружки')" data-i18n="cat_mugs"> Кружки</a>
+<a onclick="showCategory('Гравировка')" data-i18n="cat_engraving">🌳 Гравировка</a>
+<a onclick="showCategory('Для бизнеса')" data-i18n="cat_business"> Для бизнеса</a>
+</div>
+</div>
+<a onclick="showPage('about')" data-i18n="nav_about">О нас</a>
+<a onclick="showPage('reviews')" data-i18n="nav_reviews">Отзывы</a>
+<a onclick="showPage('contacts')" data-i18n="nav_contacts">Контакты</a>
+</nav>
+<div class="header-right">
+<input type="text" class="search-box" data-i18n-placeholder="search" placeholder="Поиск товаров...">
+<div class="lang-switch" id="langSwitch">
+<div class="lang-current" id="langCurrent" onclick="toggleLangDropdown()">🇷🇺 RU ▾</div>
+<div class="lang-dropdown" id="langDropdown">
+<div class="lang-option active" onclick="setLang('ru','🇷🇺 RU',this)">🇷🇺 Русский</div>
+<div class="lang-option" onclick="setLang('en','🇬🇧 EN',this)">🇬🇧 English</div>
+<div class="lang-option" onclick="setLang('zh','🇨🇳 ZH',this)">🇨🇳 中文</div>
+<div class="lang-option" onclick="setLang('de','🇩🇪 DE',this)">🇩🇪 Deutsch</div>
+<div class="lang-option" onclick="setLang('fr','🇫🇷 FR',this)">🇷 Français</div>
+<div class="lang-option" onclick="setLang('es','🇪🇸 ES',this)">🇸 Español</div>
+</div>
+</div>
+<button class="icon-btn" onclick="showPage('account')">👤</button>
+<button class="icon-btn">♡</button>
+<button class="icon-btn" onclick="showPage('cart')">🛒<span class="cart-count" id="cartCount">0</span></button>
+</div>
+</header>
+<div id="page-home">
+<div class="hero">
+<div class="hero-content">
+<div class="hero-subtitle-top" data-i18n="hero_top">CREA • REGALA • INSPIRA</div>
+<h1><span data-i18n="hero_title1">REGALOS Y SOUVENIRS</span><br><span class="gold" data-i18n="hero_gold">PERSONALIZADOS</span></h1>
+<p class="description" data-i18n="hero_desc">Fotos, logotipos, nombres, ideas: los transformamos en productos únicos y de calidad.</p>
+<button class="btn-primary-hero" onclick="showPage('constructor-choice')" data-i18n="hero_btn">Создать свой магнит →</button>
+</div>
+<div class="hero-benefits">
+<div class="hero-benefit"><div class="icon">💎</div><div data-i18n="benefit_1">Materiales de<br>alta calidad</div></div>
+<div class="hero-benefit"><div class="icon">🚚</div><div data-i18n="benefit_2">Procesamiento<br>rápido de pedidos</div></div>
+<div class="hero-benefit"><div class="icon"></div><div data-i18n="benefit_3">Envío a toda<br>España y Europa</div></div>
+<div class="hero-benefit"><div class="icon">✓</div><div data-i18n="benefit_4">Garantía en<br>todos los productos</div></div>
+</div>
+</div>
+<div class="categories-section"><div class="categories-grid" id="categoriesGrid"></div></div>
+<div class="how-section">
+<div class="how-container">
+<div>
+<h2 class="how-title" data-i18n="how_title">Как это работает?</h2>
+<p class="how-subtitle" data-i18n="how_subtitle">Всего несколько простых шагов — и ваш уникальный товар готов!</p>
+<div class="how-steps">
+<div class="how-step"><div class="how-step-num">1</div><div class="how-step-icon">️</div><h4 data-i18n="step1_title">Выберите товар</h4><p data-i18n="step1_desc">и настройте параметры</p></div>
+<div class="how-arrow">→</div>
+<div class="how-step"><div class="how-step-num">2</div><div class="how-step-icon">☁️</div><h4 data-i18n="step2_title">Загрузите фото,</h4><p data-i18n="step2_desc">логотип или текст</p></div>
+<div class="how-arrow">→</div>
+<div class="how-step"><div class="how-step-num">3</div><div class="how-step-icon"></div><h4 data-i18n="step3_title">Оформите заказ</h4><p data-i18n="step3_desc">и оплатите удобным способом</p></div>
+<div class="how-arrow">→</div>
+<div class="how-step"><div class="how-step-num">4</div><div class="how-step-icon"></div><h4 data-i18n="step4_title">Мы изготовим</h4><p data-i18n="step4_desc">и доставим ваш заказ</p></div>
+</div>
+</div>
+<div class="gift-promo">
+<div class="gift-promo-img">🎁</div>
+<div>
+<h3 data-i18n="gift_title">Идеальный подарок<br>для близких и коллег</h3>
+<p data-i18n="gift_desc">Подарки, которые остаются в памяти надолго.</p>
+<button class="btn-outline" onclick="showPage('ideas')" data-i18n="gift_btn">Смотреть идеи →</button>
+</div>
+</div>
+</div>
+</div>
+<div class="products-section">
+<div class="section-header">
+<h2 class="section-title" data-i18n="popular_title">Популярные товары</h2>
+<a class="view-all" onclick="showPage('catalog')" data-i18n="view_all">Смотреть все →</a>
+</div>
+<div class="products-grid" id="popularProducts"></div>
+</div>
+<div class="reviews-section">
+<div class="reviews-container">
+<div>
+<div class="section-header">
+<h2 class="section-title" data-i18n="reviews_title">Отзывы наших клиентов</h2>
+<a class="view-all" onclick="showPage('reviews')" data-i18n="view_all">Смотреть все →</a>
+</div>
+<div id="reviewsList"></div>
+</div>
+<div>
+<h2 class="section-title" style="margin-bottom:20px" data-i18n="follow_title">Следите за нами</h2>
+<p style="color:#666;margin-bottom:20px" data-i18n="follow_desc">Больше идей, новинок и готовых работ в наших соцсетях</p>
+<div class="social-links">
+<div class="social-link"><div class="social-icon instagram">📷</div><div class="social-link-text"><strong>Instagram</strong>@zevunor</div></div>
+<div class="social-link"><div class="social-icon tiktok">🎵</div><div class="social-link-text"><strong>TikTok</strong>@zevunor</div></div>
+</div>
+<div class="social-gallery" id="socialGallery"></div>
+</div>
+</div>
+</div>
+<div class="bottom-section">
+<div class="business-block">
+<h3 data-i18n="business_title">Ваш бизнес — наша забота</h3>
+<p data-i18n="business_desc">QR-коды, логотипы, корпоративные подарки, брендированная продукция.</p>
+<button class="btn-primary-hero" onclick="showCategory('Для бизнеса')" data-i18n="business_btn">Узнать больше →</button>
+<div class="business-qr"></div>
+</div>
+<div class="social-block">
+<h3 data-i18n="follow_title">Следите за нами</h3>
+<p style="color:#666;margin-bottom:20px" data-i18n="follow_desc">Больше идей в наших соцсетях</p>
+<div class="social-links">
+<div class="social-link"><div class="social-icon instagram"></div><div class="social-link-text"><strong>Instagram</strong>@zevunor</div></div>
+<div class="social-link"><div class="social-icon tiktok">🎵</div><div class="social-link-text"><strong>TikTok</strong>@zevunor</div></div>
+</div>
+<div class="social-gallery" id="socialGallery2"></div>
+</div>
+</div>
+</div>
+<div id="page-constructor-choice" style="display:none">
+<div class="constructor-choice-page">
+<div class="constructor-choice-header">
+<h1 data-i18n="constructor_choice_title">Что хотите создать?</h1>
+<p data-i18n="constructor_choice_desc">Выберите тип товара и начните создавать свой уникальный дизайн</p>
+</div>
+<div class="constructor-types-grid" id="constructorTypesGrid"></div>
+</div>
+</div>
+<div id="page-constructor" style="display:none">
+<div class="constructor-choice-page">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <a onclick="showPage('constructor-choice')">Конструктор</a> › <span id="constructorTypeName"></span></div>
+<div class="constructor-choice-header">
+<h1 id="constructorTitle">Создание товара</h1>
+<p id="constructorDesc">Настройте ваш уникальный товар</p>
+</div>
+<div class="constructor-steps-bar">
+<div class="c-step active" onclick="setConstructorStep(1)"><div class="c-step-num">1</div><div class="c-step-title" data-i18n="cstep1">Загрузите фото</div></div>
+<div class="c-step" onclick="setConstructorStep(2)"><div class="c-step-num">2</div><div class="c-step-title" data-i18n="cstep2">Редактирование</div></div>
+<div class="c-step" onclick="setConstructorStep(3)"><div class="c-step-num">3</div><div class="c-step-title" data-i18n="cstep3">Дизайн</div></div>
+<div class="c-step" onclick="setConstructorStep(4)"><div class="c-step-num">4</div><div class="c-step-title" data-i18n="cstep4">Размер и опции</div></div>
+<div class="c-step" onclick="setConstructorStep(5)"><div class="c-step-num">5</div><div class="c-step-title" data-i18n="cstep5">Оформление</div></div>
+</div>
+<div class="constructor-workspace" id="constructorContent"></div>
+</div>
+</div>
+<div id="page-ideas" style="display:none">
+<div class="info-page" style="max-width:1200px">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="ideas_title">Идеи</span></div>
+<h1 data-i18n="ideas_title">Идеи для подарков</h1>
+<p style="font-size:16px;color:#666;margin-bottom:30px" data-i18n="ideas_desc">Вдохновитесь нашими готовыми решениями</p>
+<div class="products-grid" id="ideasGrid" style="grid-template-columns:repeat(3,1fr)"></div>
+</div>
+</div>
+<div id="page-category" style="display:none">
+<div class="category-layout">
+<aside class="filters-sidebar">
+<h3 style="margin-bottom:20px;font-size:20px" data-i18n="filters_title">Фильтры</h3>
+<div class="filter-section">
+<div class="filter-title" onclick="toggleFilter(this)"><span data-i18n="filter_categories">Категории</span><span class="arrow"></span></div>
+<ul class="filter-list" id="filterCategories">
+<li class="active" onclick="applyFilter('category','all',this)" data-i18n="filter_all">📷 Все товары</li>
+<li onclick="applyFilter('category','Магниты',this)" data-i18n="cat_magnets">🖼️ Магниты</li>
+<li onclick="applyFilter('category','Термосы',this)" data-i18n="cat_thermos"> Термосы</li>
+<li onclick="applyFilter('category','3D-печать',this)" data-i18n="cat_3d">🐉 3D-печать</li>
+<li onclick="applyFilter('category','Одежда',this)" data-i18n="cat_clothes">👕 Одежда</li>
+<li onclick="applyFilter('category','Кружки',this)" data-i18n="cat_mugs">☕ Кружки</li>
+<li onclick="applyFilter('category','Гравировка',this)" data-i18n="cat_engraving">🌳 Гравировка</li>
+<li onclick="applyFilter('category','Для бизнеса',this)" data-i18n="cat_business"> Для бизнеса</li>
+</ul>
+</div>
+<div class="filter-section">
+<div class="filter-title" onclick="toggleFilter(this)"><span data-i18n="filter_shape">Форма</span><span class="arrow">▾</span></div>
+<ul class="filter-list" id="filterShape">
+<li><input type="checkbox" onchange="applyShapeFilter()"> <span data-i18n="shape_rect">Прямоугольные</span></li>
+<li><input type="checkbox" onchange="applyShapeFilter()"> <span data-i18n="shape_square">Квадратные</span></li>
+<li><input type="checkbox" onchange="applyShapeFilter()"> <span data-i18n="shape_round">Круглые</span></li>
+<li><input type="checkbox" onchange="applyShapeFilter()"> <span data-i18n="shape_oval">Овальные</span></li>
+<li><input type="checkbox" onchange="applyShapeFilter()"> <span data-i18n="shape_heart">Сердце</span></li>
+<li><input type="checkbox" onchange="applyShapeFilter()"> <span data-i18n="shape_star">Звезда</span></li>
+<li><input type="checkbox" onchange="applyShapeFilter()"> <span data-i18n="shape_figure">Фигурные</span></li>
+<li><input type="checkbox" onchange="applyShapeFilter()"> <span data-i18n="shape_custom">Индивидуальная форма</span></li>
+</ul>
+</div>
+<div class="filter-section">
+<div class="filter-title" onclick="toggleFilter(this)"><span data-i18n="filter_size">Размер</span><span class="arrow">▾</span></div>
+<ul class="filter-list" id="filterSize">
+<li><input type="checkbox" onchange="applySizeFilter()"> 5×5 см</li>
+<li><input type="checkbox" onchange="applySizeFilter()"> 6×6 см</li>
+<li><input type="checkbox" onchange="applySizeFilter()"> 6×9 см</li>
+<li><input type="checkbox" onchange="applySizeFilter()"> 7×10 см</li>
+<li><input type="checkbox" onchange="applySizeFilter()"> 10×15 см</li>
+<li><input type="checkbox" onchange="applySizeFilter()"> 15×20 см</li>
+<li><input type="checkbox" onchange="applySizeFilter()"> 20×30 см</li>
+<li><input type="checkbox" onchange="applySizeFilter()"> <span data-i18n="size_other">Другой размер</span></li>
+</ul>
+</div>
+<div class="filter-section">
+<div class="filter-title" onclick="toggleFilter(this)"><span data-i18n="filter_price">Цена</span><span class="arrow">▾</span></div>
+<input type="range" class="price-slider" id="priceSlider" min="1.90" max="50" step="0.10" value="50" oninput="updatePriceLabel(this.value)">
+<div class="price-range"><span>1,90 €</span><span id="priceLabel">50,00 €</span></div>
+</div>
+<button class="btn-apply-filters" onclick="applyAllFilters()" data-i18n="btn_apply">Применить фильтры</button>
+</aside>
+<div>
+<div style="background:linear-gradient(135deg,#0d1b2a,#1a2d42);color:white;padding:40px;border-radius:15px;margin-bottom:30px">
+<h1 id="catTitle" style="font-size:36px;margin-bottom:10px"></h1>
+<p id="catSubtitle" style="font-size:16px;opacity:.9"></p>
+</div>
+<div class="products-grid" id="categoryProducts" style="grid-template-columns:repeat(3,1fr)"></div>
+</div>
+</div>
+</div>
+<div id="page-catalog" style="display:none">
+<div class="category-layout">
+<aside class="filters-sidebar">
+<h3 style="margin-bottom:20px;font-size:20px" data-i18n="filters_title">Фильтры</h3>
+<div class="filter-section">
+<div class="filter-title" onclick="toggleFilter(this)"><span data-i18n="filter_categories">Категории</span><span class="arrow">▾</span></div>
+<ul class="filter-list">
+<li class="active" onclick="applyFilter('category','all',this)" data-i18n="filter_all">📷 Все товары</li>
+<li onclick="applyFilter('category','Магниты',this)" data-i18n="cat_magnets">🖼️ Магниты</li>
+<li onclick="applyFilter('category','Термосы',this)" data-i18n="cat_thermos">🍶 Термосы</li>
+<li onclick="applyFilter('category','3D-печать',this)" data-i18n="cat_3d">🐉 3D-печать</li>
+<li onclick="applyFilter('category','Одежда',this)" data-i18n="cat_clothes">👕 Одежда</li>
+<li onclick="applyFilter('category','Кружки',this)" data-i18n="cat_mugs">☕ Кружки</li>
+<li onclick="applyFilter('category','Гравировка',this)" data-i18n="cat_engraving">🌳 Гравировка</li>
+<li onclick="applyFilter('category','Для бизнеса',this)" data-i18n="cat_business">💼 Для бизнеса</li>
+</ul>
+</div>
+<div class="filter-section">
+<div class="filter-title" onclick="toggleFilter(this)"><span data-i18n="filter_price">Цена</span><span class="arrow"></span></div>
+<input type="range" class="price-slider" min="1.90" max="50" step="0.10" value="50" oninput="updatePriceLabel(this.value)">
+<div class="price-range"><span>1,90 €</span><span>50,00 €</span></div>
+</div>
+<button class="btn-apply-filters" onclick="applyAllFilters()" data-i18n="btn_apply">Применить фильтры</button>
+</aside>
+<div>
+<div style="background:linear-gradient(135deg,#0d1b2a,#1a2d42);color:white;padding:40px;border-radius:15px;margin-bottom:30px">
+<h1 style="font-size:36px;margin-bottom:10px" data-i18n="catalog_title">Весь каталог</h1>
+<p style="font-size:16px;opacity:.9" data-i18n="catalog_desc">Все товары магазина ZEVUNOR</p>
+</div>
+<div class="products-grid" id="catalogProducts" style="grid-template-columns:repeat(3,1fr)"></div>
+</div>
+</div>
+</div>
+<div id="page-cart" style="display:none">
+<div class="info-page" style="max-width:900px">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="cart_title">Корзина</span></div>
+<h1 data-i18n="cart_title">Ваша корзина</h1>
+<div id="cartItems"></div>
+<div id="cartTotal" style="font-size:24px;font-weight:bold;text-align:right;margin-top:20px;padding-top:20px;border-top:2px solid #eee"></div>
+<button class="btn-whatsapp" onclick="checkoutWhatsApp()" data-i18n="checkout_whatsapp">💬 Оформить через WhatsApp</button>
+</div>
+</div>
+<div id="page-account" style="display:none">
+<div style="max-width:1400px;margin:30px auto;padding:0 30px;display:grid;grid-template-columns:260px 1fr;gap:25px">
+<aside style="background:white;border-radius:12px;padding:25px;height:fit-content;box-shadow:0 2px 8px rgba(0,0,0,.05)">
+<div style="text-align:center;padding-bottom:20px;border-bottom:1px solid #eee;margin-bottom:20px">
+<div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;font-size:36px;color:white;margin:0 auto 12px">И</div>
+<div style="font-size:16px;font-weight:bold;margin-bottom:4px">Иван Петров</div>
+<div style="font-size:12px;color:#888;margin-bottom:10px">ivan@example.com</div>
+<div style="font-size:12px;color:#667eea;cursor:pointer" data-i18n="account_profile">Профиль</div>
+</div>
+<ul style="list-style:none">
+<li style="padding:12px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px;margin-bottom:4px;background:#fff9e6;color:#0d1b2a;font-weight:600" onclick="showAccountSection('orders',this)" data-i18n="account_orders"> Мои заказы</li>
+<li style="padding:12px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px;margin-bottom:4px" onclick="showAccountSection('addresses',this)" data-i18n="account_addresses"> Адреса доставки</li>
+<li style="padding:12px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px;margin-bottom:4px" onclick="showAccountSection('favorites',this)" data-i18n="account_favorites">♡ Избранное</li>
+<li style="padding:12px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px;margin-bottom:4px" onclick="showAccountSection('reviews',this)" data-i18n="account_reviews"> Отзывы</li>
+<li style="padding:12px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px;margin-bottom:4px" onclick="showAccountSection('bonuses',this)" data-i18n="account_bonuses">🎁 Бонусы и скидки</li>
+<li style="padding:12px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px;margin-bottom:4px" onclick="showAccountSection('settings',this)" data-i18n="account_settings">⚙️ Настройки</li>
+<li style="padding:12px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px;margin-top:10px;color:#dc3545" onclick="alert('Выход из аккаунта')" data-i18n="account_logout">🚪 Выйти</li>
+</ul>
+</aside>
+<div style="background:white;border-radius:12px;padding:30px;box-shadow:0 2px 8px rgba(0,0,0,.05)" id="accountContent"></div>
+</div>
+</div>
+<div id="page-admin" style="display:none">
+<div style="display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 72px);background:#f0f2f5">
+<aside style="background:#0d1b2a;color:white;padding:20px 0;position:relative">
+<div style="padding:0 20px 20px;border-bottom:1px solid #1a2d42;margin-bottom:15px">
+<div style="font-size:18px;font-weight:bold">ZEVUNOR<span style="color:#d4af37">.</span></div>
+<div style="font-size:11px;opacity:.7;margin-top:3px" data-i18n="admin_panel">Админ-панель</div>
+</div>
+<ul style="list-style:none">
+<li style="padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px;background:#1a2d42;border-left:3px solid #d4af37" onclick="showAdminSection('dashboard',this)" data-i18n="admin_home">🏠 Главная</li>
+<li style="padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px" onclick="showAdminSection('orders',this)" data-i18n="admin_orders">📦 Заказы <span style="background:#d4af37;color:#0d1b2a;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:bold;margin-left:auto">12</span></li>
+<li style="padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px" onclick="showAdminSection('products',this)" data-i18n="admin_products">🏷️ Товары</li>
+<li style="padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px" onclick="showAdminSection('clients',this)" data-i18n="admin_clients">👥 Клиенты</li>
+<li style="padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px" onclick="showAdminSection('reviews-admin',this)" data-i18n="admin_reviews"> Отзывы <span style="background:#d4af37;color:#0d1b2a;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:bold;margin-left:auto">5</span></li>
+<li style="padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px" onclick="showAdminSection('editor',this)" data-i18n="admin_editor">✏️ Редактор сайта</li>
+<li style="padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px" onclick="showAdminSection('full-editor',this)" data-i18n="admin_full_editor">🎨 Полный редактор</li>
+<li style="padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14px" onclick="showAdminSection('admin-settings',this)" data-i18n="admin_settings">️ Настройки</li>
+</ul>
+<div style="display:flex;align-items:center;gap:12px;padding:15px 20px;border-top:1px solid #1a2d42;position:absolute;bottom:0;width:240px">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#f4d03f);display:flex;align-items:center;justify-content:center;font-weight:bold;color:#0d1b2a">А</div>
+<div style="flex:1">
+<div style="font-size:14px;font-weight:600">Алексей</div>
+<div style="font-size:11px;opacity:.7" data-i18n="admin_role">Администратор</div>
+</div>
+</div>
+</aside>
+<div style="padding:30px;overflow-y:auto" id="adminContent"></div>
+</div>
+</div>
+<div id="page-about" style="display:none">
+<div class="info-page">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="nav_about">О нас</span></div>
+<h1 data-i18n="about_title">О компании ZEVUNOR</h1>
+<p data-i18n="about_p1">ZEVUNOR — это современная платформа для создания персонализированных товаров, основанная в 2020 году в Барселоне, Испания.</p>
+<p data-i18n="about_p2">Мы используем передовые технологии печати и только сертифицированные материалы.</p>
+<h2 data-i18n="about_why">Почему выбирают нас</h2>
+<ul>
+<li data-i18n="about_why1"><b>Собственное производство</b> — полный контроль качества</li>
+<li data-i18n="about_why2"><b>Быстрая доставка</b> — по Испании за 2-3 дня</li>
+<li data-i18n="about_why3"><b>Гарантия качества</b> — переделаем бесплатно или вернём деньги</li>
+<li data-i18n="about_why4"><b>Экологичность</b> — биоразлагаемая упаковка</li>
+<li data-i18n="about_why5"><b>10,000+ клиентов</b> в 35 странах</li>
+</ul>
+</div>
+</div>
+<div id="page-reviews" style="display:none">
+<div class="info-page" style="max-width:900px">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="nav_reviews">Отзывы</span></div>
+<h1 data-i18n="reviews_page_title">Отзывы клиентов</h1>
+<p style="font-size:16px;color:#666;margin-bottom:30px" data-i18n="reviews_page_desc">Что говорят о нас наши покупатели</p>
+<div id="allReviews"></div>
+</div>
+</div>
+<div id="page-contacts" style="display:none">
+<div class="info-page">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="nav_contacts">Контакты</span></div>
+<h1 data-i18n="contacts_title">Контакты</h1>
+<ul>
+<li><strong>📧 Email:</strong> info@zevunor.com</li>
+<li><strong> WhatsApp:</strong> +48 793 358 760</li>
+<li><strong>📞 Телефон:</strong> +34 932 123 456</li>
+<li><strong> Адрес:</strong> C/ Mayor, 12, 08001 Barcelona, España</li>
+<li><strong>🕐 Часы работы:</strong> Пн-Пт 9:00-18:00, Сб 10:00-14:00</li>
+</ul>
+</div>
+</div>
+<div id="page-delivery" style="display:none">
+<div class="info-page">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="footer_delivery">Доставка</span></div>
+<h1 data-i18n="delivery_title">Доставка</h1>
+<div class="highlight"><strong data-i18n="delivery_free">Бесплатная доставка</strong> <span data-i18n="delivery_free_text">при заказе от 50 € по Испании и от 100 € по Европе.</span></div>
+<h2 data-i18n="delivery_zones">Зоны доставки и сроки</h2>
+<table style="width:100%;border-collapse:collapse;margin:20px 0">
+<thead><tr style="background:#f5f5f5"><th style="padding:12px;border:1px solid #ddd" data-i18n="delivery_zone">Зона</th><th style="padding:12px;border:1px solid #ddd" data-i18n="delivery_time">Срок</th><th style="padding:12px;border:1px solid #ddd" data-i18n="delivery_cost">Стоимость</th></tr></thead>
+<tbody>
+<tr><td style="padding:12px;border:1px solid #ddd" data-i18n="delivery_spain">Испания (материк)</td><td style="padding:12px;border:1px solid #ddd">2-3 рабочих дня</td><td style="padding:12px;border:1px solid #ddd">4,90 €</td></tr>
+<tr><td style="padding:12px;border:1px solid #ddd" data-i18n="delivery_islands">Балеарские и Канарские острова</td><td style="padding:12px;border:1px solid #ddd">4-6 рабочих дней</td><td style="padding:12px;border:1px solid #ddd">7,90 €</td></tr>
+<tr><td style="padding:12px;border:1px solid #ddd" data-i18n="delivery_eu">Европейский Союз</td><td style="padding:12px;border:1px solid #ddd">3-7 рабочих дней</td><td style="padding:12px;border:1px solid #ddd">9,90 €</td></tr>
+<tr><td style="padding:12px;border:1px solid #ddd" data-i18n="delivery_other">Другие страны</td><td style="padding:12px;border:1px solid #ddd">7-14 рабочих дней</td><td style="padding:12px;border:1px solid #ddd">от 14,90 €</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="page-payment" style="display:none">
+<div class="info-page">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="footer_payment">Оплата</span></div>
+<h1 data-i18n="payment_title">Оплата</h1>
+<h2 data-i18n="payment_methods">Способы оплаты</h2>
+<ul>
+<li><b data-i18n="payment_cards">Банковские карты</b> — Visa, Mastercard, Maestro, American Express</li>
+<li><b>PayPal</b> — безопасная оплата через аккаунт PayPal</li>
+<li><b>Bizum</b> — мгновенный перевод для клиентов испанских банков</li>
+<li><b>Apple Pay / Google Pay</b> — бесконтактная оплата</li>
+<li><b data-i18n="payment_transfer">Банковский перевод</b> — для корпоративных заказов от 200 €</li>
+<li><b data-i18n="payment_installment">Рассрочка</b> — через Klarna (3 платежа без процентов)</li>
+</ul>
+<div class="highlight"><strong>🔒 <span data-i18n="payment_secure">Безопасность платежей</span></strong> <span data-i18n="payment_secure_text">Все транзакции защищены SSL-шифрованием.</span></div>
+</div>
+</div>
+<div id="page-returns" style="display:none">
+<div class="info-page">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="footer_return">Возврат</span></div>
+<h1 data-i18n="returns_title">Возврат и гарантии</h1>
+<div class="highlight"><strong>✅ <span data-i18n="returns_guarantee">Гарантия 100% удовлетворённости</span></strong> <span data-i18n="returns_guarantee_text">Если изделие не устроит — переделаем бесплатно или вернём деньги в течение 30 дней.</span></div>
+<h2 data-i18n="returns_right">Право на возврат (14 дней)</h2>
+<p data-i18n="returns_right_text">Согласно директиве ЕС 2011/83/EU.</p>
+<h2 data-i18n="returns_process">Процедура возврата</h2>
+<ol>
+<li data-i18n="returns_step1">Свяжитесь с нами через WhatsApp</li>
+<li data-i18n="returns_step2">Получите инструкцию</li>
+<li data-i18n="returns_step3">Отправьте товар обратно</li>
+<li data-i18n="returns_step4">Возврат денег в течение 14 дней</li>
+</ol>
+</div>
+</div>
+<div id="page-faq" style="display:none">
+<div class="info-page">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › FAQ</div>
+<h1 data-i18n="faq_title">Часто задаваемые вопросы</h1>
+<h2 data-i18n="faq_general">Общие вопросы</h2>
+<h3 data-i18n="faq_q1">Как сделать заказ?</h3>
+<p data-i18n="faq_a1">Выберите товар, загрузите фото, оформите заказ.</p>
+<h3 data-i18n="faq_q2">Какие форматы фото?</h3>
+<p data-i18n="faq_a2">JPG, PNG, HEIC. Макс. 10 МБ.</p>
+<h3 data-i18n="faq_q3">Сколько времени занимает изготовление?</h3>
+<p data-i18n="faq_a3">1-2 рабочих дня.</p>
+</div>
+</div>
+<div id="page-howto" style="display:none">
+<div class="info-page">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="footer_how">Как заказать</span></div>
+<h1 data-i18n="howto_title">Как сделать заказ</h1>
+<h2 data-i18n="howto_steps">Пошаговая инструкция</h2>
+<div class="highlight"><strong>Шаг 1:</strong> <span data-i18n="howto_step1">Выберите категорию товара.</span></div>
+<div class="highlight"><strong>Шаг 2:</strong> <span data-i18n="howto_step2">Настройте параметры.</span></div>
+<div class="highlight"><strong>Шаг 3:</strong> <span data-i18n="howto_step3">Загрузите фото.</span></div>
+<div class="highlight"><strong>Шаг 4:</strong> <span data-i18n="howto_step4">Добавьте текст.</span></div>
+<div class="highlight"><strong>Шаг 5:</strong> <span data-i18n="howto_step5">Проверьте предпросмотр.</span></div>
+<div class="highlight"><strong>Шаг 6:</strong> <span data-i18n="howto_step6">Оформите заказ.</span></div>
+<div class="highlight"><strong>Шаг 7:</strong> <span data-i18n="howto_step7">Получите трек-номер.</span></div>
+</div>
+</div>
+<div id="page-track" style="display:none">
+<div class="info-page">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="footer_track">Отследить заказ</span></div>
+<h1 data-i18n="track_title">Отследить заказ</h1>
+<p data-i18n="track_desc">Введите номер заказа или трек-номер:</p>
+<div style="display:flex;gap:10px;margin:20px 0">
+<input type="text" placeholder="ZV-2025-XXXXXX" style="flex:1;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:14px">
+<button class="btn-primary" style="width:auto;padding:12px 30px" data-i18n="track_btn">Отследить</button>
+</div>
+</div>
+</div>
+<div id="page-privacy" style="display:none">
+<div class="info-page">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="footer_privacy">Политика конфиденциальности</span></div>
+<h1 data-i18n="privacy_title">Политика конфиденциальности</h1>
+<p style="font-size:13px;color:#888" data-i18n="privacy_updated">Последнее обновление: 1 января 2026 г.</p>
+<h2>1. Общие положения</h2>
+<p data-i18n="privacy_p1">Настоящая Политика регулирует обработку данных ZEVUNOR S.L.</p>
+</div>
+</div>
+<div id="page-terms" style="display:none">
+<div class="info-page">
+<div class="breadcrumb"><a onclick="showPage('home')" data-i18n="nav_home">Главная</a> › <span data-i18n="footer_terms">Условия использования</span></div>
+<h1 data-i18n="terms_title">Условия использования</h1>
+<p style="font-size:13px;color:#888" data-i18n="terms_updated">Последнее обновление: 1 января 2026 г.</p>
+<h2>1. Общие положения</h2>
+<p data-i18n="terms_p1">Настоящие Условия регулируют отношения между ZEVUNOR S.L. и пользователями.</p>
+</div>
+</div>
+<footer class="footer">
+<div class="footer-grid">
+<div>
+<div class="footer-logo">ZEVUNOR<span>.</span></div>
+<div class="footer-slogan" data-i18n="footer_slogan">Твои идеи. Наши возможности.</div>
+<div class="social-icons">
+<a href="https://instagram.com/zevunor" target="_blank" title="Instagram">📷</a>
+<a href="https://t.me/zevunor_shop_bot" target="_blank" title="Telegram">️</a>
+<a href="https://facebook.com/zevunor" target="_blank" title="Facebook">📘</a>
+<a href="https://youtube.com/@zevunor" target="_blank" title="YouTube">▶️</a>
+<a href="https://wa.me/48793358760" target="_blank" title="WhatsApp">💬</a>
+</div>
+</div>
+<div>
+<h4 data-i18n="footer_catalog">Каталог</h4>
+<a onclick="showCategory('Магниты')" data-i18n="cat_magnets">Магниты</a>
+<a onclick="showCategory('Термосы')" data-i18n="cat_thermos">Термосы</a>
+<a onclick="showCategory('3D-печать')" data-i18n="cat_3d">3D-печать</a>
+<a onclick="showCategory('Одежда')" data-i18n="cat_clothes">Одежда</a>
+<a onclick="showCategory('Кружки')" data-i18n="cat_mugs">Кружки и посуда</a>
+<a onclick="showCategory('Гравировка')" data-i18n="cat_engraving">Лазерная гравировка</a>
+<a onclick="showCategory('Для бизнеса')" data-i18n="cat_business">Для бизнеса</a>
+</div>
+<div>
+<h4 data-i18n="footer_info">Информация</h4>
+<a onclick="showPage('about')" data-i18n="nav_about">О нас</a>
+<a onclick="showPage('delivery')" data-i18n="footer_delivery">Доставка</a>
+<a onclick="showPage('payment')" data-i18n="footer_payment">Оплата</a>
+<a onclick="showPage('returns')" data-i18n="footer_return">Возврат</a>
+<a onclick="showPage('faq')">FAQ</a>
+</div>
+<div>
+<h4 data-i18n="footer_help">Помощь</h4>
+<a onclick="showPage('faq')">FAQ</a>
+<a onclick="showPage('howto')" data-i18n="footer_how">Как заказать</a>
+<a onclick="showPage('contacts')" data-i18n="nav_contacts">Контакты</a>
+<a onclick="showPage('track')" data-i18n="footer_track">Отследить заказ</a>
+</div>
+<div>
+<h4 data-i18n="footer_subscribe">Подпишитесь на наши новости</h4>
+<p style="font-size:12px;opacity:.8;margin-bottom:10px" data-i18n="footer_subscribe_desc">Получайте новые идеи и специальные предложения</p>
+<div class="subscribe-form">
+<input type="email" placeholder="Ваш e-mail">
+<button>→</button>
+</div>
+<div style="margin-top:20px">
+<h4 style="font-size:12px;margin-bottom:10px" data-i18n="footer_legal">Правовая информация</h4>
+<a onclick="showPage('privacy')" style="font-size:12px" data-i18n="footer_privacy">Политика конфиденциальности</a>
+<a onclick="showPage('terms')" style="font-size:12px" data-i18n="footer_terms">Условия использования</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<div>© 2026 ZEVUNOR S.L. CIF: B12345678. <span data-i18n="footer_rights">Все права защищены.</span></div>
+<div>
+<a onclick="showPage('privacy')" data-i18n="footer_privacy">Политика конфиденциальности</a>
+<a onclick="showPage('terms')" data-i18n="footer_terms">Условия использования</a>
+</div>
+</div>
+</footer>
+<div style="text-align:center;padding:20px">
+<a onclick="openLoginModal()" style="color:#888;font-size:12px;cursor:pointer" data-i18n="admin_link">Вход для администратора</a>
+</div>
+<div class="modal" id="loginModal">
+<div class="modal-content">
+<div class="modal-header">
+<h3 data-i18n="login_title">Вход в админ-панель</h3>
+<button class="close-modal" onclick="closeModal('loginModal')">×</button>
+</div>
+<form id="loginForm" onsubmit="event.preventDefault();checkLogin()" autocomplete="on">
+<div class="form-group">
+<label for="adminLogin" data-i18n="login_label">Логин</label>
+<input type="text" id="adminLogin" name="username" autocomplete="username" placeholder="Введите логин" required>
+</div>
+<div class="form-group">
+<label for="adminPass" data-i18n="password_label">Пароль</label>
+<input type="password" id="adminPass" name="password" autocomplete="current-password" placeholder="Введите пароль" required>
+</div>
+<button type="submit" class="btn-primary" data-i18n="login_btn">Войти</button>
+</form>
+<p style="margin-top:10px;font-size:12px;color:#888" data-i18n="login_hint">Подсказка: логин <b>admin</b>, пароль <b>Zevunor2026!</b></p>
+</div>
+</div>
+<script>
+const translations={ru:{nav_home:'Главная',nav_catalog:'Каталог',nav_about:'О нас',nav_reviews:'Отзывы',nav_contacts:'Контакты',cat_magnets:'Магниты',cat_thermos:'Термосы',cat_3d:'3D-печать',cat_clothes:'Одежда',cat_mugs:'Кружки',cat_engraving:'Гравировка',cat_business:'Для бизнеса',search:'Поиск товаров...',hero_top:'CREA • REGALA • INSPIRA',hero_title1:'REGALOS Y SOUVENIRS',hero_gold:'PERSONALIZADOS',hero_desc:'Fotos, logotipos, nombres, ideas: los transformamos en productos únicos y de calidad.',hero_btn:'Создать свой магнит →',benefit_1:'Materiales de<br>alta calidad',benefit_2:'Procesamiento<br>rápido de pedidos',benefit_3:'Envío a toda<br>España y Europa',benefit_4:'Garantía en<br>todos los productos',how_title:'Как это работает?',how_subtitle:'Всего несколько простых шагов — и ваш уникальный товар готов!',step1_title:'Выберите товар',step1_desc:'и настройте параметры',step2_title:'Загрузите фото,',step2_desc:'логотип или текст',step3_title:'Оформите заказ',step3_desc:'и оплатите удобным способом',step4_title:'Мы изготовим',step4_desc:'и доставим ваш заказ',gift_title:'Идеальный подарок<br>для близких и коллег',gift_desc:'Подарки, которые остаются в памяти надолго.',gift_btn:'Смотреть идеи →',popular_title:'Популярные товары',view_all:'Смотреть все →',reviews_title:'Отзывы наших клиентов',follow_title:'Следите за нами',follow_desc:'Больше идей, новинок и готовых работ в наших соцсетях',business_title:'Ваш бизнес — наша забота',business_desc:'QR-коды, логотипы, корпоративные подарки, брендированная продукция.',business_btn:'Узнать больше →',constructor_choice_title:'Что хотите создать?',constructor_choice_desc:'Выберите тип товара и начните создавать свой уникальный дизайн',cstep1:'Загрузите фото',cstep2:'Редактирование',cstep3:'Дизайн',cstep4:'Размер и опции',cstep5:'Оформление',ideas_title:'Идеи для подарков',ideas_desc:'Вдохновитесь нашими готовыми решениями',catalog_title:'Весь каталог',catalog_desc:'Все товары магазина ZEVUNOR',cart_title:'Ваша корзина',checkout_whatsapp:'💬 Оформить через WhatsApp',about_title:'О компании ZEVUNOR',about_p1:'ZEVUNOR — это современная платформа для создания персонализированных товаров, основанная в 2020 году в Барселоне, Испания.',about_p2:'Мы используем передовые технологии печати и только сертифицированные материалы.',about_why:'Почему выбирают нас',about_why1:'<b>Собственное производство</b> — полный контроль качества',about_why2:'<b>Быстрая доставка</b> — по Испании за 2-3 дня',about_why3:'<b>Гарантия качества</b> — переделаем бесплатно или вернём деньги',about_why4:'<b>Экологичность</b> — биоразлагаемая упаковка',about_why5:'<b>10,000+ клиентов</b> в 35 странах',reviews_page_title:'Отзывы клиентов',reviews_page_desc:'Что говорят о нас наши покупатели',contacts_title:'Контакты',delivery_title:'Доставка',delivery_free:'Бесплатная доставка',delivery_free_text:'при заказе от 50 € по Испании и от 100 € по Европе.',delivery_zones:'Зоны доставки и сроки',delivery_zone:'Зона',delivery_time:'Срок',delivery_cost:'Стоимость',delivery_spain:'Испания (материк)',delivery_islands:'Балеарские и Канарские острова',delivery_eu:'Европейский Союз',delivery_other:'Другие страны',payment_title:'Оплата',payment_methods:'Способы оплаты',payment_cards:'Банковские карты',payment_transfer:'Банковский перевод',payment_installment:'Рассрочка',payment_secure:'Безопасность платежей',payment_secure_text:'Все транзакции защищены SSL-шифрованием.',returns_title:'Возврат и гарантии',returns_guarantee:'Гарантия 100% удовлетворённости',returns_guarantee_text:'Если изделие не устроит — переделаем бесплатно или вернём деньги в течение 30 дней.',returns_right:'Право на возврат (14 дней)',returns_right_text:'Согласно директиве ЕС 2011/83/EU.',returns_process:'Процедура возврата',returns_step1:'Свяжитесь с нами через WhatsApp',returns_step2:'Получите инструкцию',returns_step3:'Отправьте товар обратно',returns_step4:'Возврат денег в течение 14 дней',faq_title:'Часто задаваемые вопросы',faq_general:'Общие вопросы',faq_q1:'Как сделать заказ?',faq_a1:'Выберите товар, загрузите фото, оформите заказ.',faq_q2:'Какие форматы фото?',faq_a2:'JPG, PNG, HEIC. Макс. 10 МБ.',faq_q3:'Сколько времени занимает изготовление?',faq_a3:'1-2 рабочих дня.',faq_delivery:'Доставка',faq_q4:'Можно ли отследить посылку?',faq_a4:'Да, трек-номер приходит на email.',faq_payment:'Оплата',faq_q5:'Безопасно ли платить?',faq_a5:'Да, SSL-шифрование.',howto_title:'Как сделать заказ',howto_steps:'Пошаговая инструкция',howto_step1:'Выберите категорию товара.',howto_step2:'Настройте параметры.',howto_step3:'Загрузите фото.',howto_step4:'Добавьте текст.',howto_step5:'Проверьте предпросмотр.',howto_step6:'Оформите заказ.',howto_step7:'Получите трек-номер.',track_title:'Отследить заказ',track_desc:'Введите номер заказа:',track_btn:'Отследить',privacy_title:'Политика конфиденциальности',privacy_updated:'Последнее обновление: 1 января 2026 г.',privacy_p1:'Настоящая Политика регулирует обработку данных.',terms_title:'Условия использования',terms_updated:'Последнее обновление: 1 января 2026 г.',terms_p1:'Настоящие Условия регулируют отношения.',filters_title:'Фильтры',filter_categories:'Категории',filter_all:'Все товары',filter_shape:'Форма',filter_size:'Размер',filter_price:'Цена',shape_rect:'Прямоугольные',shape_square:'Квадратные',shape_round:'Круглые',shape_oval:'Овальные',shape_heart:'Сердце',shape_star:'Звезда',shape_figure:'Фигурные',shape_custom:'Индивидуальная форма',size_other:'Другой размер',btn_apply:'Применить фильтры',account_profile:'Профиль',account_orders:'📦 Мои заказы',account_addresses:' Адреса доставки',account_favorites:'♡ Избранное',account_reviews:'💬 Отзывы',account_bonuses:'🎁 Бонусы',account_settings:'⚙️ Настройки',account_logout:'🚪 Выйти',admin_panel:'Админ-панель',admin_home:'🏠 Главная',admin_orders:' Заказы',admin_products:'🏷️ Товары',admin_clients:'👥 Клиенты',admin_reviews:'💬 Отзывы',admin_editor:'✏️ Редактор сайта',admin_full_editor:' Полный редактор',admin_settings:'️ Настройки',admin_role:'Администратор',login_title:'Вход в админ-панель',login_label:'Логин',password_label:'Пароль',login_btn:'Войти',login_hint:'Подсказка: логин <b>admin</b>, пароль <b>Zevunor2026!</b>',footer_slogan:'Твои идеи. Наши возможности.',footer_catalog:'Каталог',footer_info:'Информация',footer_help:'Помощь',footer_subscribe:'Подпишитесь',footer_subscribe_desc:'Получайте новые идеи',footer_delivery:'Доставка',footer_payment:'Оплата',footer_return:'Возврат',footer_how:'Как заказать',footer_track:'Отследить заказ',footer_rights:'Все права защищены.',footer_privacy:'Политика конфиденциальности',footer_terms:'Условия использования',footer_legal:'Правовая информация',admin_link:'Вход для администратора'},en:{nav_home:'Home',nav_catalog:'Catalog',nav_about:'About',nav_reviews:'Reviews',nav_contacts:'Contacts',cat_magnets:'Magnets',cat_thermos:'Thermoses',cat_3d:'3D Printing',cat_clothes:'Clothing',cat_mugs:'Mugs',cat_engraving:'Engraving',cat_business:'For Business',search:'Search products...',hero_top:'CREA • REGALA • INSPIRA',hero_title1:'REGALOS Y SOUVENIRS',hero_gold:'PERSONALIZADOS',hero_desc:'Fotos, logotipos, nombres, ideas.',hero_btn:'Create your magnet →',benefit_1:'High quality<br>materials',benefit_2:'Fast order<br>processing',benefit_3:'Shipping to all<br>Spain and Europe',benefit_4:'Warranty on<br>all products',how_title:'How it works?',how_subtitle:'Just a few simple steps!',step1_title:'Choose product',step1_desc:'and set parameters',step2_title:'Upload photo,',step2_desc:'logo or text',step3_title:'Place order',step3_desc:'and pay conveniently',step4_title:'We produce',step4_desc:'and deliver',gift_title:'Perfect gift',gift_desc:'Gifts that stay in memory.',gift_btn:'See ideas →',popular_title:'Popular products',view_all:'View all →',reviews_title:'Our clients reviews',follow_title:'Follow us',follow_desc:'More ideas in our social networks',business_title:'Your business',business_desc:'QR codes, logos, corporate gifts.',business_btn:'Learn more →',constructor_choice_title:'What do you want to create?',constructor_choice_desc:'Choose a product type',cstep1:'Upload photo',cstep2:'Editing',cstep3:'Design',cstep4:'Size & options',cstep5:'Checkout',ideas_title:'Gift ideas',ideas_desc:'Get inspired',catalog_title:'Full catalog',catalog_desc:'All ZEVUNOR products',cart_title:'Your cart',checkout_whatsapp:'💬 Checkout via WhatsApp',about_title:'About ZEVUNOR',about_p1:'ZEVUNOR founded in 2020 in Barcelona.',about_p2:'We use advanced printing technologies.',about_why:'Why choose us',about_why1:'<b>Own production</b>',about_why2:'<b>Fast delivery</b>',about_why3:'<b>Quality guarantee</b>',about_why4:'<b>Eco-friendly</b>',about_why5:'<b>10,000+ customers</b>',reviews_page_title:'Client reviews',reviews_page_desc:'What our customers say',contacts_title:'Contacts',delivery_title:'Delivery',delivery_free:'Free delivery',delivery_free_text:'from 50 € in Spain.',delivery_zones:'Delivery zones',delivery_zone:'Zone',delivery_time:'Time',delivery_cost:'Cost',delivery_spain:'Spain',delivery_islands:'Islands',delivery_eu:'EU',delivery_other:'Other countries',payment_title:'Payment',payment_methods:'Payment methods',payment_cards:'Bank cards',payment_transfer:'Bank transfer',payment_installment:'Installment',payment_secure:'Payment security',payment_secure_text:'SSL encryption.',returns_title:'Returns',returns_guarantee:'100% guarantee',returns_guarantee_text:'Within 30 days.',returns_right:'Right of return',returns_right_text:'14 days.',returns_process:'Return procedure',returns_step1:'Contact us',returns_step2:'Get instructions',returns_step3:'Send back',returns_step4:'Refund',faq_title:'FAQ',faq_general:'General',faq_q1:'How to order?',faq_a1:'Choose, upload, order.',faq_q2:'Photo formats?',faq_a2:'JPG, PNG, HEIC.',faq_q3:'Production time?',faq_a3:'1-2 days.',faq_delivery:'Delivery',faq_q4:'Track?',faq_a4:'Yes.',faq_payment:'Payment',faq_q5:'Safe?',faq_a5:'Yes.',howto_title:'How to order',howto_steps:'Instructions',howto_step1:'Choose category.',howto_step2:'Set parameters.',howto_step3:'Upload photo.',howto_step4:'Add text.',howto_step5:'Check preview.',howto_step6:'Order.',howto_step7:'Wait.',track_title:'Track order',track_desc:'Enter number:',track_btn:'Track',privacy_title:'Privacy',privacy_updated:'Jan 1, 2026',privacy_p1:'This Policy regulates data processing.',terms_title:'Terms',terms_updated:'Jan 1, 2026',terms_p1:'These Terms regulate relations.',filters_title:'Filters',filter_categories:'Categories',filter_all:'All products',filter_shape:'Shape',filter_size:'Size',filter_price:'Price',shape_rect:'Rectangular',shape_square:'Square',shape_round:'Round',shape_oval:'Oval',shape_heart:'Heart',shape_star:'Star',shape_figure:'Figurative',shape_custom:'Custom',size_other:'Other',btn_apply:'Apply',account_profile:'Profile',account_orders:'📦 My orders',account_addresses:' Addresses',account_favorites:'♡ Favorites',account_reviews:'💬 Reviews',account_bonuses:'🎁 Bonuses',account_settings:'️ Settings',account_logout:'🚪 Logout',admin_panel:'Admin panel',admin_home:' Home',admin_orders:'📦 Orders',admin_products:'🏷️ Products',admin_clients:' Clients',admin_reviews:'💬 Reviews',admin_editor:'✏️ Editor',admin_full_editor:' Full editor',admin_settings:'️ Settings',admin_role:'Administrator',login_title:'Admin login',login_label:'Login',password_label:'Password',login_btn:'Sign in',login_hint:'Hint: <b>admin</b>, <b>Zevunor2026!</b>',footer_slogan:'Your ideas. Our possibilities.',footer_catalog:'Catalog',footer_info:'Information',footer_help:'Help',footer_subscribe:'Subscribe',footer_subscribe_desc:'Get new ideas',footer_delivery:'Delivery',footer_payment:'Payment',footer_return:'Returns',footer_how:'How to order',footer_track:'Track',footer_rights:'All rights reserved.',footer_privacy:'Privacy',footer_terms:'Terms',footer_legal:'Legal',admin_link:'Admin login'},zh:{nav_home:'首页',nav_catalog:'目录',nav_about:'关于',nav_reviews:'评价',nav_contacts:'联系',cat_magnets:'磁铁',cat_thermos:'保温杯',cat_3d:'3D打印',cat_clothes:'服装',cat_mugs:'杯子',cat_engraving:'雕刻',cat_business:'商业',search:'搜索...',hero_top:'CREA • REGALA • INSPIRA',hero_title1:'REGALOS Y SOUVENIRS',hero_gold:'PERSONALIZADOS',hero_desc:'Fotos, logotipos, nombres, ideas.',hero_btn:'制作磁铁 →',benefit_1:'高品质<br>材料',benefit_2:'快速<br>处理',benefit_3:'配送至<br>西班牙和欧洲',benefit_4:'所有产品<br>保修',how_title:'如何运作?',how_subtitle:'只需几个步骤!',step1_title:'选择产品',step1_desc:'并设置参数',step2_title:'上传照片,',step2_desc:'标志或文字',step3_title:'下单',step3_desc:'并支付',step4_title:'我们生产',step4_desc:'并交付',gift_title:'完美礼物',gift_desc:'长久留在记忆中。',gift_btn:'查看想法 →',popular_title:'热门产品',view_all:'查看全部 →',reviews_title:'客户评价',follow_title:'关注我们',follow_desc:'更多想法',business_title:'您的业务',business_desc:'二维码、标志。',business_btn:'了解更多 →',constructor_choice_title:'你想创建什么?',constructor_choice_desc:'选择产品类型',cstep1:'上传照片',cstep2:'编辑',cstep3:'设计',cstep4:'尺寸',cstep5:'结账',ideas_title:'礼物想法',ideas_desc:'获得灵感',catalog_title:'完整目录',catalog_desc:'所有产品',cart_title:'购物车',checkout_whatsapp:' 通过WhatsApp',about_title:'关于ZEVUNOR',about_p1:'ZEVUNOR成立于2020年。',about_p2:'我们使用先进技术。',about_why:'为什么选择我们',about_why1:'<b>自主生产</b>',about_why2:'<b>快速配送</b>',about_why3:'<b>质量保证</b>',about_why4:'<b>环保</b>',about_why5:'<b>10,000+客户</b>',reviews_page_title:'客户评价',reviews_page_desc:'客户怎么说',contacts_title:'联系方式',delivery_title:'配送',delivery_free:'免费配送',delivery_free_text:'订单满50€。',delivery_zones:'配送区域',delivery_zone:'区域',delivery_time:'时间',delivery_cost:'费用',delivery_spain:'西班牙',delivery_islands:'群岛',delivery_eu:'欧盟',delivery_other:'其他国家',payment_title:'支付',payment_methods:'支付方式',payment_cards:'银行卡',payment_transfer:'银行转账',payment_installment:'分期',payment_secure:'支付安全',payment_secure_text:'SSL加密。',returns_title:'退货',returns_guarantee:'100%保证',returns_guarantee_text:'30天内。',returns_right:'退货权',returns_right_text:'14天。',returns_process:'退货程序',returns_step1:'联系我们',returns_step2:'获取说明',returns_step3:'退回',returns_step4:'退款',faq_title:'常见问题',faq_general:'一般问题',faq_q1:'如何下单?',faq_a1:'选择产品。',faq_q2:'照片格式?',faq_a2:'JPG, PNG, HEIC。',faq_q3:'生产时间?',faq_a3:'1-2天。',faq_delivery:'配送',faq_q4:'可以追踪吗?',faq_a4:'可以。',faq_payment:'支付',faq_q5:'安全吗?',faq_a5:'是的。',howto_title:'如何订购',howto_steps:'说明',howto_step1:'选择类别。',howto_step2:'设置参数。',howto_step3:'上传照片。',howto_step4:'添加文本。',howto_step5:'检查预览。',howto_step6:'下单。',howto_step7:'等待交付。',track_title:'追踪订单',track_desc:'输入号码:',track_btn:'追踪',privacy_title:'隐私政策',privacy_updated:'2026年1月1日',privacy_p1:'本政策规范数据处理。',terms_title:'使用条款',terms_updated:'2026年1月1日',terms_p1:'本条款规范关系。',filters_title:'筛选',filter_categories:'类别',filter_all:'所有产品',filter_shape:'形状',filter_size:'尺寸',filter_price:'价格',shape_rect:'长方形',shape_square:'方形',shape_round:'圆形',shape_oval:'椭圆形',shape_heart:'心形',shape_star:'星形',shape_figure:'图形',shape_custom:'定制',size_other:'其他',btn_apply:'应用',account_profile:'个人资料',account_orders:' 我的订单',account_addresses:' 地址',account_favorites:'♡ 收藏',account_reviews:'💬 评价',account_bonuses:'🎁 奖金',account_settings:'️ 设置',account_logout:' 退出',admin_panel:'管理面板',admin_home:'🏠 首页',admin_orders:' 订单',admin_products:'️ 产品',admin_clients:'👥 客户',admin_reviews:'💬 评价',admin_editor:'✏️ 编辑器',admin_full_editor:'🎨 完整编辑器',admin_settings:'️ 设置',admin_role:'管理员',login_title:'管理员登录',login_label:'登录名',password_label:'密码',login_btn:'登录',login_hint:'提示:<b>admin</b>,<b>Zevunor2026!</b>',footer_slogan:'你的想法。我们的可能。',footer_catalog:'目录',footer_info:'信息',footer_help:'帮助',footer_subscribe:'订阅',footer_subscribe_desc:'获取新想法',footer_delivery:'配送',footer_payment:'支付',footer_return:'退货',footer_how:'如何订购',footer_track:'追踪',footer_rights:'版权所有。',footer_privacy:'隐私政策',footer_terms:'使用条款',footer_legal:'法律信息',admin_link:'管理员登录'},de:{nav_home:'Startseite',nav_catalog:'Katalog',nav_about:'Über uns',nav_reviews:'Bewertungen',nav_contacts:'Kontakt',cat_magnets:'Magnete',cat_thermos:'Thermos',cat_3d:'3D-Druck',cat_clothes:'Kleidung',cat_mugs:'Tassen',cat_engraving:'Gravur',cat_business:'Für Unternehmen',search:'Produkte suchen...',hero_top:'CREA • REGALA • INSPIRA',hero_title1:'REGALOS Y SOUVENIRS',hero_gold:'PERSONALIZADOS',hero_desc:'Fotos, Logos, Namen, Ideen.',hero_btn:'Magnet erstellen →',benefit_1:'Hochwertige<br>Materialien',benefit_2:'Schnelle<br>Abwicklung',benefit_3:'Versand in<br>Spanien und Europa',benefit_4:'Garantie auf<br>alle Produkte',how_title:'Wie funktioniert es?',how_subtitle:'Nur wenige Schritte!',step1_title:'Produkt wählen',step1_desc:'und Parameter',step2_title:'Foto hochladen,',step2_desc:'Logo oder Text',step3_title:'Bestellen',step3_desc:'und bezahlen',step4_title:'Wir produzieren',step4_desc:'und liefern',gift_title:'Perfektes Geschenk',gift_desc:'Geschenke, die bleiben.',gift_btn:'Ideen ansehen →',popular_title:'Beliebte Produkte',view_all:'Alle ansehen →',reviews_title:'Kundenbewertungen',follow_title:'Folgen Sie uns',follow_desc:'Mehr Ideen',business_title:'Ihr Geschäft',business_desc:'QR-Codes, Logos.',business_btn:'Mehr erfahren →',constructor_choice_title:'Was möchten Sie erstellen?',constructor_choice_desc:'Wählen Sie einen Typ',cstep1:'Foto hochladen',cstep2:'Bearbeitung',cstep3:'Design',cstep4:'Größe',cstep5:'Kasse',ideas_title:'Geschenkideen',ideas_desc:'Inspirieren',catalog_title:'Katalog',catalog_desc:'Alle Produkte',cart_title:'Warenkorb',checkout_whatsapp:'💬 Per WhatsApp',about_title:'Über ZEVUNOR',about_p1:'ZEVUNOR 2020 gegründet.',about_p2:'Fortschrittliche Technologien.',about_why:'Warum uns wählen',about_why1:'<b>Eigene Produktion</b>',about_why2:'<b>Schnelle Lieferung</b>',about_why3:'<b>Qualitätsgarantie</b>',about_why4:'<b>Umweltfreundlich</b>',about_why5:'<b>10.000+ Kunden</b>',reviews_page_title:'Kundenbewertungen',reviews_page_desc:'Was Kunden sagen',contacts_title:'Kontakt',delivery_title:'Lieferung',delivery_free:'Kostenlose Lieferung',delivery_free_text:'ab 50 €.',delivery_zones:'Lieferzonen',delivery_zone:'Zone',delivery_time:'Frist',delivery_cost:'Kosten',delivery_spain:'Spanien',delivery_islands:'Inseln',delivery_eu:'EU',delivery_other:'Andere',payment_title:'Zahlung',payment_methods:'Zahlungsmethoden',payment_cards:'Bankkarten',payment_transfer:'Überweisung',payment_installment:'Raten',payment_secure:'Sicherheit',payment_secure_text:'SSL.',returns_title:'Rückgabe',returns_guarantee:'100% Garantie',returns_guarantee_text:'Innerhalb 30 Tage.',returns_right:'Rückgaberecht',returns_right_text:'14 Tage.',returns_process:'Verfahren',returns_step1:'Kontaktieren',returns_step2:'Anleitung',returns_step3:'Zurücksenden',returns_step4:'Rückerstattung',faq_title:'FAQ',faq_general:'Allgemein',faq_q1:'Wie bestellen?',faq_a1:'Produkt wählen.',faq_q2:'Formate?',faq_a2:'JPG, PNG, HEIC.',faq_q3:'Produktionszeit?',faq_a3:'1-2 Tage.',faq_delivery:'Lieferung',faq_q4:'Verfolgen?',faq_a4:'Ja.',faq_payment:'Zahlung',faq_q5:'Sicher?',faq_a5:'Ja.',howto_title:'Wie bestellen',howto_steps:'Anleitung',howto_step1:'Kategorie wählen.',howto_step2:'Parameter.',howto_step3:'Foto.',howto_step4:'Text.',howto_step5:'Vorschau.',howto_step6:'Bestellen.',howto_step7:'Warten.',track_title:'Verfolgen',track_desc:'Nummer eingeben:',track_btn:'Verfolgen',privacy_title:'Datenschutz',privacy_updated:'1. Jan 2026',privacy_p1:'Diese Richtlinie.',terms_title:'Nutzungsbedingungen',terms_updated:'1. Jan 2026',terms_p1:'Diese Bedingungen.',filters_title:'Filter',filter_categories:'Kategorien',filter_all:'Alle',filter_shape:'Form',filter_size:'Größe',filter_price:'Preis',shape_rect:'Rechteckig',shape_square:'Quadratisch',shape_round:'Rund',shape_oval:'Oval',shape_heart:'Herz',shape_star:'Stern',shape_figure:'Figürlich',shape_custom:'Individuell',size_other:'Andere',btn_apply:'Anwenden',account_profile:'Profil',account_orders:'📦 Bestellungen',account_addresses:' Adressen',account_favorites:'♡ Favoriten',account_reviews:'💬 Bewertungen',account_bonuses:'🎁 Boni',account_settings:'⚙️ Einstellungen',account_logout:'🚪 Abmelden',admin_panel:'Admin',admin_home:'🏠 Startseite',admin_orders:'📦 Bestellungen',admin_products:'️ Produkte',admin_clients:' Kunden',admin_reviews:'💬 Bewertungen',admin_editor:'✏️ Editor',admin_full_editor:' Vollständiger Editor',admin_settings:'️ Einstellungen',admin_role:'Administrator',login_title:'Admin-Login',login_label:'Login',password_label:'Passwort',login_btn:'Anmelden',login_hint:'<b>admin</b>, <b>Zevunor2026!</b>',footer_slogan:'Deine Ideen.',footer_catalog:'Katalog',footer_info:'Information',footer_help:'Hilfe',footer_subscribe:'Abonnieren',footer_subscribe_desc:'Neue Ideen',footer_delivery:'Lieferung',footer_payment:'Zahlung',footer_return:'Rückgabe',footer_how:'Wie bestellen',footer_track:'Verfolgen',footer_rights:'Alle Rechte.',footer_privacy:'Datenschutz',footer_terms:'Bedingungen',footer_legal:'Rechtliches',admin_link:'Admin-Login'},fr:{nav_home:'Accueil',nav_catalog:'Catalogue',nav_about:'À propos',nav_reviews:'Avis',nav_contacts:'Contact',cat_magnets:'Aimants',cat_thermos:'Thermos',cat_3d:'Impression 3D',cat_clothes:'Vêtements',cat_mugs:'Tasses',cat_engraving:'Gravure',cat_business:'Entreprises',search:'Rechercher...',hero_top:'CREA • REGALA • INSPIRA',hero_title1:'REGALOS Y SOUVENIRS',hero_gold:'PERSONALIZADOS',hero_desc:'Fotos, logos, noms, idées.',hero_btn:'Créer votre aimant →',benefit_1:'Matériaux de<br>haute qualité',benefit_2:'Traitement rapide<br>des commandes',benefit_3:'Livraison dans toute<br>l\'Espagne et l\'Europe',benefit_4:'Garantie sur<br>tous les produits',how_title:'Comment ça marche?',how_subtitle:'Quelques étapes!',step1_title:'Choisir produit',step1_desc:'et paramètres',step2_title:'Télécharger photo,',step2_desc:'logo ou texte',step3_title:'Commander',step3_desc:'et payer',step4_title:'Nous produisons',step4_desc:'et livrons',gift_title:'Cadeau parfait',gift_desc:'Cadeaux qui restent.',gift_btn:'Voir idées →',popular_title:'Produits populaires',view_all:'Voir tout →',reviews_title:'Avis clients',follow_title:'Suivez-nous',follow_desc:'Plus d\'idées',business_title:'Votre business',business_desc:'QR codes, logos.',business_btn:'En savoir plus →',constructor_choice_title:'Que créer?',constructor_choice_desc:'Choisissez un type',cstep1:'Photo',cstep2:'Édition',cstep3:'Design',cstep4:'Taille',cstep5:'Paiement',ideas_title:'Idées cadeaux',ideas_desc:'Inspirez-vous',catalog_title:'Catalogue',catalog_desc:'Tous les produits',cart_title:'Panier',checkout_whatsapp:' Via WhatsApp',about_title:'À propos',about_p1:'ZEVUNOR fondée en 2020.',about_p2:'Technologies avancées.',about_why:'Pourquoi nous',about_why1:'<b>Production propre</b>',about_why2:'<b>Livraison rapide</b>',about_why3:'<b>Garantie</b>',about_why4:'<b>Écologique</b>',about_why5:'<b>10 000+ clients</b>',reviews_page_title:'Avis',reviews_page_desc:'Ce que disent les clients',contacts_title:'Contact',delivery_title:'Livraison',delivery_free:'Livraison gratuite',delivery_free_text:'dès 50 €.',delivery_zones:'Zones',delivery_zone:'Zone',delivery_time:'Délai',delivery_cost:'Coût',delivery_spain:'Espagne',delivery_islands:'Îles',delivery_eu:'UE',delivery_other:'Autres',payment_title:'Paiement',payment_methods:'Moyens',payment_cards:'Cartes',payment_transfer:'Virement',payment_installment:'En plusieurs fois',payment_secure:'Sécurité',payment_secure_text:'SSL.',returns_title:'Retour',returns_guarantee:'Garantie 100%',returns_guarantee_text:'30 jours.',returns_right:'Droit de retour',returns_right_text:'14 jours.',returns_process:'Procédure',returns_step1:'Contactez-nous',returns_step2:'Instructions',returns_step3:'Renvoyez',returns_step4:'Remboursement',faq_title:'FAQ',faq_general:'Général',faq_q1:'Comment commander?',faq_a1:'Choisir, uploader.',faq_q2:'Formats?',faq_a2:'JPG, PNG, HEIC.',faq_q3:'Temps?',faq_a3:'1-2 jours.',faq_delivery:'Livraison',faq_q4:'Suivre?',faq_a4:'Oui.',faq_payment:'Paiement',faq_q5:'Sûr?',faq_a5:'Oui.',howto_title:'Comment commander',howto_steps:'Instructions',howto_step1:'Catégorie.',howto_step2:'Paramètres.',howto_step3:'Photo.',howto_step4:'Texte.',howto_step5:'Aperçu.',howto_step6:'Commander.',howto_step7:'Attendre.',track_title:'Suivre',track_desc:'Numéro:',track_btn:'Suivre',privacy_title:'Confidentialité',privacy_updated:'1er jan 2026',privacy_p1:'Cette Politique.',terms_title:'Conditions',terms_updated:'1er jan 2026',terms_p1:'Ces Conditions.',filters_title:'Filtres',filter_categories:'Catégories',filter_all:'Tous',filter_shape:'Forme',filter_size:'Taille',filter_price:'Prix',shape_rect:'Rectangulaire',shape_square:'Carré',shape_round:'Rond',shape_oval:'Ovale',shape_heart:'Cœur',shape_star:'Étoile',shape_figure:'Figuratif',shape_custom:'Personnalisé',size_other:'Autre',btn_apply:'Appliquer',account_profile:'Profil',account_orders:'📦 Commandes',account_addresses:' Adresses',account_favorites:'♡ Favoris',account_reviews:'💬 Avis',account_bonuses:'🎁 Bonus',account_settings:'⚙️ Paramètres',account_logout:'🚪 Déconnexion',admin_panel:'Admin',admin_home:'🏠 Accueil',admin_orders:'📦 Commandes',admin_products:'️ Produits',admin_clients:' Clients',admin_reviews:'💬 Avis',admin_editor:'✏️ Éditeur',admin_full_editor:'🎨 Éditeur complet',admin_settings:'⚙️ Paramètres',admin_role:'Administrateur',login_title:'Connexion',login_label:'Identifiant',password_label:'Mot de passe',login_btn:'Se connecter',login_hint:'<b>admin</b>, <b>Zevunor2026!</b>',footer_slogan:'Vos idées.',footer_catalog:'Catalogue',footer_info:'Info',footer_help:'Aide',footer_subscribe:'S\'abonner',footer_subscribe_desc:'Nouvelles idées',footer_delivery:'Livraison',footer_payment:'Paiement',footer_return:'Retour',footer_how:'Comment',footer_track:'Suivre',footer_rights:'Tous droits.',footer_privacy:'Confidentialité',footer_terms:'Conditions',footer_legal:'Légal',admin_link:'Connexion admin'},es:{nav_home:'Inicio',nav_catalog:'Catálogo',nav_about:'Sobre nosotros',nav_reviews:'Reseñas',nav_contacts:'Contacto',cat_magnets:'Imanes',cat_thermos:'Termos',cat_3d:'Impresión 3D',cat_clothes:'Ropa',cat_mugs:'Tazas',cat_engraving:'Grabado',cat_business:'Empresas',search:'Buscar...',hero_top:'CREA • REGALA • INSPIRA',hero_title1:'REGALOS Y SOUVENIRS',hero_gold:'PERSONALIZADOS',hero_desc:'Fotos, logotipos, nombres, ideas.',hero_btn:'Crear tu imán →',benefit_1:'Materiales de<br>alta calidad',benefit_2:'Procesamiento<br>rápido',benefit_3:'Envío a toda<br>España y Europa',benefit_4:'Garantía en<br>todos los productos',how_title:'¿Cómo funciona?',how_subtitle:'¡Solo unos pasos!',step1_title:'Elige producto',step1_desc:'y parámetros',step2_title:'Sube foto,',step2_desc:'logo o texto',step3_title:'Haz pedido',step3_desc:'y paga',step4_title:'Producimos',step4_desc:'y entregamos',gift_title:'Regalo perfecto',gift_desc:'Regalos que permanecen.',gift_btn:'Ver ideas →',popular_title:'Productos populares',view_all:'Ver todo →',reviews_title:'Reseñas',follow_title:'Síguenos',follow_desc:'Más ideas',business_title:'Tu negocio',business_desc:'Códigos QR, logos.',business_btn:'Saber más →',constructor_choice_title:'¿Qué crear?',constructor_choice_desc:'Elige un tipo',cstep1:'Subir foto',cstep2:'Edición',cstep3:'Diseño',cstep4:'Tamaño',cstep5:'Pago',ideas_title:'Ideas',ideas_desc:'Inspírate',catalog_title:'Catálogo',catalog_desc:'Todos los productos',cart_title:'Carrito',checkout_whatsapp:'💬 Por WhatsApp',about_title:'Sobre ZEVUNOR',about_p1:'ZEVUNOR fundada en 2020.',about_p2:'Tecnologías avanzadas.',about_why:'Por qué elegirnos',about_why1:'<b>Producción propia</b>',about_why2:'<b>Envío rápido</b>',about_why3:'<b>Garantía</b>',about_why4:'<b>Ecológico</b>',about_why5:'<b>10.000+ clientes</b>',reviews_page_title:'Reseñas',reviews_page_desc:'Lo que dicen',contacts_title:'Contacto',delivery_title:'Envío',delivery_free:'Envío gratis',delivery_free_text:'desde 50 €.',delivery_zones:'Zonas',delivery_zone:'Zona',delivery_time:'Plazo',delivery_cost:'Coste',delivery_spain:'España',delivery_islands:'Islas',delivery_eu:'UE',delivery_other:'Otros',payment_title:'Pago',payment_methods:'Métodos',payment_cards:'Tarjetas',payment_transfer:'Transferencia',payment_installment:'A plazos',payment_secure:'Seguridad',payment_secure_text:'SSL.',returns_title:'Devolución',returns_guarantee:'Garantía 100%',returns_guarantee_text:'30 días.',returns_right:'Derecho',returns_right_text:'14 días.',returns_process:'Procedimiento',returns_step1:'Contáctanos',returns_step2:'Instrucciones',returns_step3:'Envía',returns_step4:'Reembolso',faq_title:'FAQ',faq_general:'General',faq_q1:'¿Cómo pedir?',faq_a1:'Elige, sube, pide.',faq_q2:'¿Formatos?',faq_a2:'JPG, PNG, HEIC.',faq_q3:'¿Tiempo?',faq_a3:'1-2 días.',faq_delivery:'Envío',faq_q4:'¿Rastrear?',faq_a4:'Sí.',faq_payment:'Pago',faq_q5:'¿Seguro?',faq_a5:'Sí.',howto_title:'Cómo pedir',howto_steps:'Instrucciones',howto_step1:'Categoría.',howto_step2:'Parámetros.',howto_step3:'Foto.',howto_step4:'Texto.',howto_step5:'Vista previa.',howto_step6:'Pedir.',howto_step7:'Esperar.',track_title:'Seguir',track_desc:'Número:',track_btn:'Seguir',privacy_title:'Privacidad',privacy_updated:'1 ene 2026',privacy_p1:'Esta Política.',terms_title:'Términos',terms_updated:'1 ene 2026',terms_p1:'Estos Términos.',filters_title:'Filtros',filter_categories:'Categorías',filter_all:'Todos',filter_shape:'Forma',filter_size:'Tamaño',filter_price:'Precio',shape_rect:'Rectangular',shape_square:'Cuadrado',shape_round:'Redondo',shape_oval:'Ovalado',shape_heart:'Corazón',shape_star:'Estrella',shape_figure:'Figurativo',shape_custom:'Personalizado',size_other:'Otro',btn_apply:'Aplicar',account_profile:'Perfil',account_orders:'📦 Pedidos',account_addresses:'📍 Direcciones',account_favorites:'♡ Favoritos',account_reviews:'💬 Reseñas',account_bonuses:'🎁 Bonos',account_settings:'⚙️ Ajustes',account_logout:'🚪 Salir',admin_panel:'Admin',admin_home:' Inicio',admin_orders:'📦 Pedidos',admin_products:'🏷️ Productos',admin_clients:'👥 Clientes',admin_reviews:' Reseñas',admin_editor:'✏️ Editor',admin_full_editor:'🎨 Editor completo',admin_settings:'⚙️ Ajustes',admin_role:'Administrador',login_title:'Login',login_label:'Usuario',password_label:'Contraseña',login_btn:'Entrar',login_hint:'<b>admin</b>, <b>Zevunor2026!</b>',footer_slogan:'Tus ideas.',footer_catalog:'Catálogo',footer_info:'Info',footer_help:'Ayuda',footer_subscribe:'Suscríbete',footer_subscribe_desc:'Nuevas ideas',footer_delivery:'Envío',footer_payment:'Pago',footer_return:'Devolución',footer_how:'Cómo',footer_track:'Seguir',footer_rights:'Derechos.',footer_privacy:'Privacidad',footer_terms:'Términos',footer_legal:'Legal',admin_link:'Login admin'}};
+
+const categoryInfo={'Магниты':{subtitle:'Фото, QR, бизнес',emoji:'🖼️',img:'https://images.unsplash.com/photo-1513519209282-884467235e70?w=400'},'Термосы':{subtitle:'С логотипом и надписью',emoji:'🍶',img:'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400'},'3D-печать':{subtitle:'Фигурки, детали, на заказ',emoji:'🐉',img:'https://images.unsplash.com/photo-1633511090164-b43840ea1607?w=400'},'Одежда':{subtitle:'Футболки, нанесение логотипа',emoji:'👕',img:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400'},'Кружки':{subtitle:'Индивидуальный дизайн',emoji:'☕',img:'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400'},'Гравировка':{subtitle:'Имена, логотипы, подарки',emoji:'🌳',img:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400'},'Для бизнеса':{subtitle:'Рекламные и корпоративные решения',emoji:'💼',img:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400'}};
+const defaultProducts=[{id:1,name:'Фотомагнит стандартный 9×6',price:5.90,emoji:'🖼️',img:'https://picsum.photos/seed/mag1/400/400',category:'Магниты',rating:4.9,reviews:124,shape:'rect',size:'9×6'},{id:2,name:'QR-магнит для бизнеса',price:7.90,emoji:'📱',img:'https://picsum.photos/seed/qr1/400/400',category:'Для бизнеса',rating:4.8,reviews:86,shape:'square',size:'6×6'},{id:3,name:'Кружка с фото 330мл',price:9.90,emoji:'☕',img:'https://picsum.photos/seed/mug1/400/400',category:'Кружки',rating:4.9,reviews:198},{id:4,name:'Футболка с принтом',price:19.90,emoji:'👕',img:'https://picsum.photos/seed/tshirt1/400/400',category:'Одежда',rating:4.8,reviews:76},{id:5,name:'Термос с гравировкой 500мл',price:24.90,emoji:'🍶',img:'https://picsum.photos/seed/thermos1/400/400',category:'Термосы',rating:4.9,reviews:92},{id:6,name:'3D-фигурка на заказ',price:39.90,emoji:'🐉',img:'https://picsum.photos/seed/3d1/400/400',category:'3D-печать',rating:4.8,reviews:54},{id:7,name:'Деревянный магнит 10×10',price:8.90,emoji:'🌳',img:'https://picsum.photos/seed/wood1/400/400',category:'Гравировка',rating:4.9,reviews:67,shape:'square',size:'10×10'},{id:8,name:'Набор магнитов 5 шт',price:24.90,emoji:'🎁',img:'https://picsum.photos/seed/set1/400/400',category:'Магниты',rating:4.9,reviews:142,shape:'rect',size:'9×6'},{id:9,name:'Магнит-сердце 8×8',price:6.90,emoji:'❤️',img:'https://picsum.photos/seed/heart1/400/400',category:'Магниты',rating:4.8,reviews:86,shape:'heart',size:'8×8'},{id:10,name:'Круглый магнит 7 см',price:5.90,emoji:'⭕',img:'https://picsum.photos/seed/round1/400/400',category:'Магниты',rating:4.8,reviews:73,shape:'round',size:'7×7'},{id:11,name:'Свадебный магнит',price:9.90,emoji:'💍',img:'https://picsum.photos/seed/wedding1/400/400',category:'Магниты',rating:5.0,reviews:56,shape:'heart',size:'10×10'},{id:12,name:'Семейный магнит',price:8.50,emoji:'👨‍👩‍👧',img:'https://picsum.photos/seed/family1/400/400',category:'Магниты',rating:4.9,reviews:33,shape:'rect',size:'10×15'}];
+const reviews=[{name:'Анна К.',date:'15.06.2025',rating:5,text:'Отличное качество! Магниты получились даже лучше, чем в ожидании. Быстрая доставка и очень вежливый сервис. Обязательно закажу ещё!',img:'🖼️',avatar:'А'},{name:'Дмитрий П.',date:'02.06.2025',rating:5,text:'Заказывал футболки с логотипом для нашей команды. Всё на высшем уровне! Качество печати отличное, материал приятный. Спасибо, ZEVUNOR!',img:'👕',avatar:'Д'}];
+const ideas=[{title:'Семейные фото',desc:'Тёплые моменты с близкими',emoji:'👨‍👩‍👧',color:'#667eea'},{title:'Свадебные воспоминания',desc:'Ваш особенный день',emoji:'💍',color:'#f093fb'},{title:'Путешествия',desc:'Лучшие места мира',emoji:'✈️',color:'#4facfe'},{title:'Домашние любимцы',desc:'Ваши пушистые друзья',emoji:'🐾',color:'#43e97b'},{title:'Детские фото',desc:'Растём вместе',emoji:'👶',color:'#fa709a'},{title:'Праздники',desc:'День рождения, Новый год',emoji:'🎉',color:'#fee140'}];
+const constructorTypes=[{id:'magnet',name:'Магнит',emoji:'️',color:'#667eea',desc:'Фотомагниты разных форм и размеров',sizes:['6×4','9×6','10×7','15×10']},{id:'mug',name:'Кружка',emoji:'☕',color:'#f093fb',desc:'Кружки 330мл с вашим фото или текстом',sizes:['330мл','450мл']},{id:'tshirt',name:'Футболка',emoji:'👕',color:'#4facfe',desc:'Футболки с принтом, нанесение логотипа',sizes:['S','M','L','XL','XXL']},{id:'thermos',name:'Термос',emoji:'🍶',color:'#43e97b',desc:'Термосы с гравировкой 500мл',sizes:['350мл','500мл','750мл']},{id:'3d',name:'3D-фигурка',emoji:'🐉',color:'#fa709a',desc:'3D-печать фигурок по вашему фото',sizes:['10см','15см','20см']},{id:'engraving',name:'Гравировка',emoji:'🌳',color:'#fee140',desc:'Лазерная гравировка на дереве, металле',sizes:['5×5','10×10','15×15']},{id:'qr',name:'QR-магнит',emoji:'📱',color:'#30cfd0',desc:'Магниты с QR-кодом для бизнеса',sizes:['6×6','9×9']},{id:'custom',name:'Индивидуальный заказ',emoji:'✨',color:'#a8edea',desc:'Опишите вашу идею — мы воплотим',sizes:[]}];
+
+let products=JSON.parse(localStorage.getItem('zev_products'))||defaultProducts;
+let cart=JSON.parse(localStorage.getItem('zev_cart'))||[];
+let currentLang=localStorage.getItem('zev_lang')||'ru';
+let currentFilters={category:'all',shapes:[],sizes:[],maxPrice:50};
+let currentConstructorType=null;
+let constructorStep=1;
+let constructorData={photo:null,crop:50,rotate:0,brightness:100,contrast:100,saturation:100,filter:'original',frame:'none',text:'',font:'Handwritten',textColor:'#000000',size:null,background:'none',quantity:1};
+const sizePrices={'6×4':4.90,'9×6':6.90,'10×7':8.90,'12×9':11.90,'15×10':14.90,'20×15':22.90,'330мл':9.90,'450мл':12.90,'S':19.90,'M':19.90,'L':21.90,'XL':23.90,'XXL':25.90,'350мл':19.90,'500мл':24.90,'750мл':29.90,'10см':29.90,'15см':39.90,'20см':49.90,'5×5':6.90,'10×10':8.90,'15×15':12.90};
+const backgroundPrices={'none':0,'white':1.50,'color':2.90,'premium':4.90};
+
+function toggleLangDropdown(){document.getElementById('langSwitch').classList.toggle('open')}
+function setLang(lang,label,el){currentLang=lang;localStorage.setItem('zev_lang',lang);document.getElementById('langCurrent').innerHTML=label+' ▾';document.querySelectorAll('.lang-option').forEach(o=>o.classList.remove('active'));if(el)el.classList.add('active');document.getElementById('langSwitch').classList.remove('open');applyTranslations();renderCategories();renderProducts('popularProducts',products.slice(0,6));renderReviews('reviewsList',reviews);renderSocialGallery('socialGallery');renderSocialGallery('socialGallery2');renderIdeas();renderConstructorTypes()}
+function applyTranslations(){const t=translations[currentLang];if(!t)return;document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(t[key]!==undefined)el.innerHTML=t[key]});document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{const key=el.getAttribute('data-i18n-placeholder');if(t[key])el.placeholder=t[key]})}
+document.addEventListener('click',function(e){if(!e.target.closest('.lang-switch'))document.getElementById('langSwitch').classList.remove('open')});
+
+function renderCategories(){const cats=Object.keys(categoryInfo);document.getElementById('categoriesGrid').innerHTML=cats.map(cat=>{const info=categoryInfo[cat];return `<div class="category-card" onclick="showCategory('${cat}')"><div class="category-card-img"><img src="${info.img}" onerror="this.style.display='none';this.parentElement.textContent='${info.emoji}'"></div><div class="category-card-content"><h4>${info.emoji} ${cat}</h4><p>${info.subtitle}</p><span class="arrow">→</span></div></div>`}).join('')}
+function renderProducts(containerId,productList){document.getElementById(containerId).innerHTML=productList.map(p=>{const imgHtml=p.img?`<img src="${p.img}" alt="${p.name}" onerror="this.style.display='none';this.parentElement.textContent='${p.emoji}'">`:p.emoji;const stars='★'.repeat(Math.floor(p.rating||5))+'☆'.repeat(5-Math.floor(p.rating||5));return `<div class="product-card"><div class="product-img">${imgHtml}</div><div class="product-info"><div class="product-name">${p.name}</div><div class="product-price">${p.price.toFixed(2).replace('.',',')} €</div><div class="product-rating">${stars} <span class="count">(${p.reviews||0})</span></div></div></div>`}).join('')}
+function renderReviews(containerId,reviewList){document.getElementById(containerId).innerHTML=reviewList.map(r=>{const stars='★'.repeat(r.rating)+'☆'.repeat(5-r.rating);return `<div class="review-card"><div class="review-header"><div class="review-avatar">${r.avatar}</div><div><div class="review-name">${r.name}</div><div class="review-date">${r.date}</div></div></div><div class="review-stars">${stars}</div><div class="review-text">${r.text}</div><div class="review-img">${r.img}</div></div>`}).join('')}
+function renderSocialGallery(containerId){const emojis=['️','☕','👕','','🐉','🌳','','❤️'];document.getElementById(containerId).innerHTML=emojis.map(e=>`<div class="social-gallery-item">${e}</div>`).join('')}
+function renderIdeas(){document.getElementById('ideasGrid').innerHTML=ideas.map(idea=>`<div class="product-card" onclick="showPage('constructor-choice')" style="cursor:pointer"><div class="product-img" style="background:linear-gradient(135deg,${idea.color},${idea.color}dd);font-size:80px">${idea.emoji}</div><div class="product-info"><div class="product-name" style="font-size:15px;font-weight:bold">${idea.title}</div><div style="font-size:12px;color:#666">${idea.desc}</div></div></div>`).join('')}
+function renderConstructorTypes(){document.getElementById('constructorTypesGrid').innerHTML=constructorTypes.map(type=>`<div class="constructor-type-card" onclick="startConstructor('${type.id}')"><div class="constructor-type-img" style="background:linear-gradient(135deg,${type.color},${type.color}dd)">${type.emoji}</div><div class="constructor-type-content"><h3>${type.name}</h3><p>${type.desc}</p><div class="constructor-type-btn">Начать создание →</div></div></div>`).join('')}
+function startConstructor(typeId){currentConstructorType=constructorTypes.find(t=>t.id===typeId);constructorStep=1;constructorData={photo:null,crop:50,rotate:0,brightness:100,contrast:100,saturation:100,filter:'original',frame:'none',text:'',font:'Handwritten',textColor:'#000000',size:currentConstructorType.sizes[0]||null,background:'none',quantity:1};document.getElementById('constructorTypeName').textContent=currentConstructorType.name;document.getElementById('constructorTitle').innerHTML=`Создание: <span class="gold">${currentConstructorType.emoji} ${currentConstructorType.name}</span>`;document.getElementById('constructorDesc').textContent=currentConstructorType.desc;showPage('constructor');renderConstructor()}
+function setConstructorStep(step){constructorStep=step;renderConstructor();window.scrollTo({top:300,behavior:'smooth'})}
+function calculateTotal(){const basePrice=sizePrices[constructorData.size]||6.90;const bgPrice=backgroundPrices[constructorData.background]||0;const qty=constructorData.quantity||1;const unitPrice=basePrice+bgPrice;const total=unitPrice*qty;return {unitPrice,total}}
+function renderConstructor(){const content=document.getElementById('constructorContent');document.querySelectorAll('.c-step').forEach((el,i)=>el.classList.toggle('active',i+1===constructorStep));if(constructorStep===1){content.innerHTML=`<h2>Шаг 1: Загрузите фото для ${currentConstructorType.name.toLowerCase()}</h2><p style="color:#666;margin-bottom:20px">Выберите фотографию с вашего устройства. Поддерживаются JPG, PNG, HEIC до 10 МБ.</p><div class="upload-zone" onclick="document.getElementById('constructorFile').click()"><div class="icon">📸</div><h3>Нажмите, чтобы выбрать фото</h3><p>или перетащите файл сюда</p><p style="font-size:12px;margin-top:10px">Поддерживаемые форматы: JPG, PNG, HEIC. Макс. размер: 10 МБ</p><input type="file" id="constructorFile" style="display:none" accept="image/*" onchange="handleConstructorFile(this)"></div>${constructorData.photo?`<div style="text-align:center;margin-top:20px"><p style="color:#28a745;font-weight:bold">✓ Фото загружено!</p><div class="photo-preview-container" style="margin-top:15px"><img src="${constructorData.photo}" alt="Preview"></div><button class="btn-primary" onclick="setConstructorStep(2)" style="max-width:300px;margin:20px auto 0;display:block">Далее: Редактирование →</button></div>`:''}`}else if(constructorStep===2){content.innerHTML=`<h2>Шаг 2: Редактирование фото</h2><p style="color:#666;margin-bottom:20px">Обрежьте, поверните, настройте яркость и контраст.</p><div class="editor-tools"><div class="editor-canvas">${constructorData.photo?`<img src="${constructorData.photo}" id="editPhoto" style="transform:rotate(${constructorData.rotate}deg);filter:brightness(${constructorData.brightness}%) contrast(${constructorData.contrast}%) saturate(${constructorData.saturation}%) ${constructorData.filter==='vintage'?'sepia(0.4)':constructorData.filter==='bw'?'grayscale(1)':constructorData.filter==='bright'?'saturate(1.5) brightness(1.1)':''}">`:'<div style="font-size:80px">🖼️</div>'}</div><div class="editor-controls"><div class="editor-control-group"><label>Обрезка: <span id="cropVal">${constructorData.crop}%</span></label><input type="range" min="0" max="100" value="${constructorData.crop}" oninput="constructorData.crop=this.value;document.getElementById('cropVal').textContent=this.value+'%';updateEditPreview()"></div><div class="editor-control-group"><label>Поворот: <span id="rotateVal">${constructorData.rotate}°</span></label><input type="range" min="0" max="360" value="${constructorData.rotate}" oninput="constructorData.rotate=this.value;document.getElementById('rotateVal').textContent=this.value+'°';updateEditPreview()"></div><div class="editor-control-group"><label>Яркость: <span id="brightVal">${constructorData.brightness}%</span></label><input type="range" min="0" max="200" value="${constructorData.brightness}" oninput="constructorData.brightness=this.value;document.getElementById('brightVal').textContent=this.value+'%';updateEditPreview()"></div><div class="editor-control-group"><label>Контраст: <span id="contrastVal">${constructorData.contrast}%</span></label><input type="range" min="0" max="200" value="${constructorData.contrast}" oninput="constructorData.contrast=this.value;document.getElementById('contrastVal').textContent=this.value+'%';updateEditPreview()"></div><div class="editor-control-group"><label>Насыщенность: <span id="satVal">${constructorData.saturation}%</span></label><input type="range" min="0" max="200" value="${constructorData.saturation}" oninput="constructorData.saturation=this.value;document.getElementById('satVal').textContent=this.value+'%';updateEditPreview()"></div><div class="editor-control-group"><label>Фильтр</label><select onchange="constructorData.filter=this.value;updateEditPreview()"><option value="original"${constructorData.filter==='original'?' selected':''}>Оригинал</option><option value="vintage"${constructorData.filter==='vintage'?' selected':''}>Винтаж</option><option value="bright"${constructorData.filter==='bright'?' selected':''}>Яркий</option><option value="bw"${constructorData.filter==='bw'?' selected':''}>Ч/Б</option></select></div><button class="btn-primary" onclick="setConstructorStep(3)" style="margin-top:10px">Далее: Дизайн →</button></div></div>`}else if(constructorStep===3){content.innerHTML=`<h2>Шаг 3: Дизайн</h2><p style="color:#666;margin-bottom:20px">Выберите рамку, добавьте текст и выберите стиль.</p><div class="editor-tools"><div class="editor-canvas"><div style="text-align:center;padding:30px;background:${constructorData.frame==='classic'?'#fff':constructorData.frame==='minimal'?'#f5f5f5':constructorData.frame==='retro'?'#fff4e6':'transparent'};border:${constructorData.frame==='classic'?'8px solid #d4af37':constructorData.frame==='minimal'?'2px solid #ddd':constructorData.frame==='retro'?'12px double #8b4513':'none'};border-radius:8px;box-shadow:${constructorData.frame!=='none'?'0 4px 15px rgba(0,0,0,0.1)':'none'}">${constructorData.photo?`<img src="${constructorData.photo}" style="max-width:250px;max-height:250px;object-fit:contain;border-radius:4px">`:'<div style="font-size:80px">🖼️</div>'}${constructorData.text?`<div style="margin-top:15px;font-size:20px;font-family:${constructorData.font==='Handwritten'?'cursive':constructorData.font==='Classic'?'Georgia':'Arial'};color:${constructorData.textColor};font-style:${constructorData.font==='Handwritten'?'italic':'normal'}">${constructorData.text}</div>`:''}</div></div><div class="editor-controls"><div class="editor-control-group"><label>Рамка</label><div style="display:flex;gap:8px;flex-wrap:wrap"><div class="size-option${constructorData.frame==='none'?' active':''}" onclick="constructorData.frame='none';renderConstructor()" style="padding:8px 12px;font-size:12px">Без рамки</div><div class="size-option${constructorData.frame==='classic'?' active':''}" onclick="constructorData.frame='classic';renderConstructor()" style="padding:8px 12px;font-size:12px">Классика</div><div class="size-option${constructorData.frame==='minimal'?' active':''}" onclick="constructorData.frame='minimal';renderConstructor()" style="padding:8px 12px;font-size:12px">Минимализм</div><div class="size-option${constructorData.frame==='retro'?' active':''}" onclick="constructorData.frame='retro';renderConstructor()" style="padding:8px 12px;font-size:12px">Ретро</div></div></div><div class="editor-control-group"><label>Текст на изделии</label><input type="text" value="${constructorData.text}" placeholder="Например: Лучшие моменты ♡" oninput="constructorData.text=this.value;renderConstructor()"></div><div class="editor-control-group"><label>Шрифт</label><select onchange="constructorData.font=this.value;renderConstructor()"><option value="Handwritten"${constructorData.font==='Handwritten'?' selected':''}>Handwritten</option><option value="Classic"${constructorData.font==='Classic'?' selected':''}>Classic</option><option value="Modern"${constructorData.font==='Modern'?' selected':''}>Modern</option></select></div><div class="editor-control-group"><label>Цвет текста</label><input type="color" value="${constructorData.textColor}" oninput="constructorData.textColor=this.value;renderConstructor()"></div><button class="btn-primary" onclick="setConstructorStep(4)" style="margin-top:10px">Далее: Размер →</button></div></div>`}else if(constructorStep===4){const {unitPrice,total}=calculateTotal();content.innerHTML=`<h2>Шаг 4: Размер и опции для ${currentConstructorType.name}</h2><p style="color:#666;margin-bottom:20px">Выберите размер, фон и количество. Цена обновляется автоматически.</p><h3 style="margin:20px 0 10px">Размер</h3><div class="size-options">${currentConstructorType.sizes.map(size=>`<div class="size-option${constructorData.size===size?' active':''}" onclick="constructorData.size='${size}';renderConstructor()"><div class="size-name">${size}</div><div class="size-price">${(sizePrices[size]||6.90).toFixed(2).replace('.',',')} €</div></div>`).join('')}</div><h3 style="margin:25px 0 10px">Фон</h3><div class="size-options">${Object.entries(backgroundPrices).map(([bg,price])=>`<div class="size-option${constructorData.background===bg?' active':''}" onclick="constructorData.background='${bg}';renderConstructor()"><div class="size-name">${bg==='none'?'Без фона':bg==='white'?'Белый':bg==='color'?'Цветной':'Премиум'}</div><div class="size-price">${price>0?'+'+price.toFixed(2).replace('.',',')+' €':'0 €'}</div></div>`).join('')}</div><h3 style="margin:25px 0 10px">Количество</h3><div style="display:flex;align-items:center;gap:15px;margin-bottom:20px"><button onclick="constructorData.quantity=Math.max(1,constructorData.quantity-1);renderConstructor()" style="width:40px;height:40px;border-radius:50%;border:1px solid #ddd;background:white;font-size:20px">−</button><span style="font-size:24px;font-weight:bold;min-width:40px;text-align:center">${constructorData.quantity}</span><button onclick="constructorData.quantity++;renderConstructor()" style="width:40px;height:40px;border-radius:50%;border:1px solid #ddd;background:white;font-size:20px">+</button></div><div class="price-display"><div><div class="label">Итого</div><div style="font-size:13px;opacity:.7">${constructorData.quantity} × ${unitPrice.toFixed(2).replace('.',',')} €</div></div><div class="total">${total.toFixed(2).replace('.',',')} €</div></div><p style="color:#888;font-size:13px;margin-bottom:20px">🚚 Ориентировочная доставка: 2-5 рабочих дней</p><button class="btn-primary" onclick="setConstructorStep(5)" style="max-width:300px">Далее: Оформление →</button>`}else if(constructorStep===5){const {total}=calculateTotal();content.innerHTML=`<h2>Шаг 5: Предварительный просмотр</h2><p style="color:#666;margin-bottom:20px">Проверьте ваш заказ и оформите через WhatsApp.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:30px"><div style="background:linear-gradient(135deg,#667eea,#764ba2);padding:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;min-height:300px">${constructorData.photo?`<div style="background:${constructorData.frame==='classic'?'#fff':constructorData.frame==='minimal'?'#f5f5f5':constructorData.frame==='retro'?'#fff4e6':'transparent'};padding:${constructorData.frame==='classic'?'15px':constructorData.frame==='retro'?'20px':'10px'};border:${constructorData.frame==='classic'?'8px solid #d4af37':constructorData.frame==='minimal'?'2px solid #ddd':constructorData.frame==='retro'?'12px double #8b4513':'none'};border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.3)"><img src="${constructorData.photo}" style="max-width:220px;max-height:220px;object-fit:contain;border-radius:4px;transform:rotate(${constructorData.rotate}deg);filter:brightness(${constructorData.brightness}%) contrast(${constructorData.contrast}%) saturate(${constructorData.saturation}%) ${constructorData.filter==='vintage'?'sepia(0.4)':constructorData.filter==='bw'?'grayscale(1)':constructorData.filter==='bright'?'saturate(1.5) brightness(1.1)':''}">${constructorData.text?`<div style="margin-top:10px;font-size:16px;font-family:${constructorData.font==='Handwritten'?'cursive':constructorData.font==='Classic'?'Georgia':'Arial'};color:${constructorData.textColor};text-align:center">${constructorData.text}</div>`:''}</div>`:`<div style="font-size:100px;color:white">${currentConstructorType.emoji}</div>`}</div><div><h3 style="margin-bottom:15px">Ваш ${currentConstructorType.name}</h3><div style="background:#f5f5f5;padding:20px;border-radius:10px;margin-bottom:15px"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><span>Тип:</span><b>${currentConstructorType.emoji} ${currentConstructorType.name}</b></div><div style="display:flex;justify-content:space-between;margin-bottom:10px"><span>Размер:</span><b>${constructorData.size||'—'}</b></div><div style="display:flex;justify-content:space-between;margin-bottom:10px"><span>Фон:</span><b>${constructorData.background==='none'?'Без фона':constructorData.background==='white'?'Белый':constructorData.background==='color'?'Цветной':'Премиум'}</b></div><div style="display:flex;justify-content:space-between;margin-bottom:10px"><span>Рамка:</span><b>${constructorData.frame==='none'?'Без рамки':constructorData.frame==='classic'?'Классика':constructorData.frame==='minimal'?'Минимализм':'Ретро'}</b></div>${constructorData.text?`<div style="display:flex;justify-content:space-between;margin-bottom:10px"><span>Текст:</span><b>${constructorData.text}</b></div>`:''}<div style="display:flex;justify-content:space-between;margin-bottom:10px"><span>Количество:</span><b>${constructorData.quantity} шт.</b></div><div style="display:flex;justify-content:space-between;font-size:24px;font-weight:bold;margin-top:15px;padding-top:15px;border-top:2px solid #ddd"><span>Итого:</span><span style="color:#d4af37">${total.toFixed(2).replace('.',',')} €</span></div></div><button class="btn-primary" onclick="addToCartFromConstructor()" style="margin-bottom:10px">🛒 Добавить в корзину</button><button class="btn-whatsapp" onclick="checkoutWhatsApp()">💬 Отправить заказ через WhatsApp</button></div></div>`}}
+function updateEditPreview(){const img=document.getElementById('editPhoto');if(img){img.style.transform=`rotate(${constructorData.rotate}deg)`;img.style.filter=`brightness(${constructorData.brightness}%) contrast(${constructorData.contrast}%) saturate(${constructorData.saturation}%) ${constructorData.filter==='vintage'?'sepia(0.4)':constructorData.filter==='bw'?'grayscale(1)':constructorData.filter==='bright'?'saturate(1.5) brightness(1.1)':''}`}}
+function handleConstructorFile(input){if(input.files&&input.files[0]){const reader=new FileReader();reader.onload=function(e){constructorData.photo=e.target.result;alert('✓ Фото загружено!');renderConstructor()};reader.readAsDataURL(input.files[0])}}
+function addToCartFromConstructor(){const {total}=calculateTotal();const item={id:Date.now(),name:`${currentConstructorType.emoji} ${currentConstructorType.name} (${constructorData.size||''})`,price:total/constructorData.quantity,emoji:currentConstructorType.emoji,img:constructorData.photo||'',category:currentConstructorType.name,quantity:constructorData.quantity,details:`Размер: ${constructorData.size}, Рамка: ${constructorData.frame}, Текст: ${constructorData.text||'нет'}`};for(let i=0;i<constructorData.quantity;i++)cart.push({...item});localStorage.setItem('zev_cart',JSON.stringify(cart));document.getElementById('cartCount').textContent=cart.length;alert('✓ Добавлено в корзину!');showPage('cart')}
+
+function toggleFilter(el){el.classList.toggle('collapsed');const list=el.nextElementSibling;if(list)list.style.display=el.classList.contains('collapsed')?'none':'block'}
+function applyFilter(type,value,el){currentFilters.category=value;el.parentElement.querySelectorAll('li').forEach(li=>li.classList.remove('active'));el.classList.add('active');applyAllFilters()}
+function applyShapeFilter(){const checkboxes=document.querySelectorAll('#filterShape input[type="checkbox"]:checked');currentFilters.shapes=Array.from(checkboxes).map(cb=>cb.parentElement.textContent.trim())}
+function applySizeFilter(){const checkboxes=document.querySelectorAll('#filterSize input[type="checkbox"]:checked');currentFilters.sizes=Array.from(checkboxes).map(cb=>cb.parentElement.textContent.trim())}
+function updatePriceLabel(val){document.getElementById('priceLabel').textContent=parseFloat(val).toFixed(2).replace('.',',')+' €';currentFilters.maxPrice=parseFloat(val)}
+function applyAllFilters(){let filtered=[...products];if(currentFilters.category!=='all')filtered=filtered.filter(p=>p.category===currentFilters.category);if(currentFilters.shapes.length>0){const shapeMap={'Прямоугольные':'rect','Квадратные':'square','Круглые':'round','Овальные':'oval','Сердце':'heart','Звезда':'star','Фигурные':'figure','Индивидуальная форма':'custom','Rectangular':'rect','Square':'square','Round':'round','Oval':'oval','Heart':'heart','Star':'star','Figurative':'figure','Custom shape':'custom'};filtered=filtered.filter(p=>p.shape&&currentFilters.shapes.some(s=>shapeMap[s]===p.shape))}if(currentFilters.sizes.length>0)filtered=filtered.filter(p=>p.size&&currentFilters.sizes.some(s=>p.size===s.replace(' см','')));filtered=filtered.filter(p=>p.price<=currentFilters.maxPrice);renderProducts('categoryProducts',filtered);if(document.getElementById('catalogProducts'))renderProducts('catalogProducts',filtered)}
+function showCategory(cat){currentFilters.category=cat;const catProducts=products.filter(p=>p.category===cat);const info=categoryInfo[cat]||{};document.getElementById('catTitle').innerHTML=cat+(info.emoji?' '+info.emoji:'');document.getElementById('catSubtitle').textContent=info.subtitle||'';renderProducts('categoryProducts',catProducts);['home','catalog','cart','category','about','reviews','contacts','constructor','constructor-choice','ideas','delivery','payment','returns','faq','howto','track','privacy','terms','account','admin'].forEach(p=>document.getElementById('page-'+p).style.display='none');document.getElementById('page-category').style.display='block';window.scrollTo(0,0)}
+function showPage(id){['home','catalog','cart','category','about','reviews','contacts','constructor','constructor-choice','ideas','delivery','payment','returns','faq','howto','track','privacy','terms','account','admin'].forEach(p=>document.getElementById('page-'+p).style.display='none');document.getElementById('page-'+id).style.display='block';if(id==='home'){renderCategories();renderProducts('popularProducts',products.slice(0,6));renderReviews('reviewsList',reviews);renderSocialGallery('socialGallery');renderSocialGallery('socialGallery2')}if(id==='catalog')renderProducts('catalogProducts',products);if(id==='cart')renderCart();if(id==='reviews')renderReviews('allReviews',reviews);if(id==='ideas')renderIdeas();if(id==='constructor-choice')renderConstructorTypes();if(id==='account')renderAccountSection('orders');window.scrollTo(0,0)}
+
+function addToCart(id){const p=products.find(x=>x.id===id);if(p){cart.push(p);localStorage.setItem('zev_cart',JSON.stringify(cart));document.getElementById('cartCount').textContent=cart.length;alert('✓ Добавлено: '+p.name)}}
+function renderCart(){const c=document.getElementById('cartItems');if(cart.length===0){c.innerHTML='<p style="text-align:center;padding:40px;color:#888">Корзина пуста</p>';document.getElementById('cartTotal').textContent='';return}c.innerHTML=cart.map((item,i)=>{const imgHtml=item.img?`<img src="${item.img}" style="width:80px;height:80px;object-fit:cover;border-radius:8px">`:`<div style="width:80px;height:80px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:40px">${item.emoji}</div>`;return `<div style="display:flex;gap:15px;padding:15px;border-bottom:1px solid #eee;align-items:center">${imgHtml}<div style="flex:1"><h4 style="font-size:15px;margin-bottom:5px">${item.name}</h4><div style="font-size:12px;color:#888">${item.category}${item.details?' • '+item.details:''}</div></div><div style="font-weight:bold;color:#0d1b2a">${item.price.toFixed(2).replace('.',',')} €</div><button onclick="removeFromCart(${i})" style="color:red;background:none;font-size:20px;cursor:pointer" title="Удалить">🗑️</button></div>`}).join('');const total=cart.reduce((sum,item)=>sum+item.price,0);document.getElementById('cartTotal').textContent='Итого: '+total.toFixed(2).replace('.',',')+' €'}
+function removeFromCart(i){cart.splice(i,1);localStorage.setItem('zev_cart',JSON.stringify(cart));document.getElementById('cartCount').textContent=cart.length;renderCart()}
+function checkoutWhatsApp(){if(cart.length===0){alert('Корзина пуста!');return}const total=cart.reduce((sum,item)=>sum+item.price,0);let message='🛒 НОВЫЙ ЗАКАЗ ZEVUNOR\n\n';cart.forEach((item,i)=>{message+=`${i+1}. ${item.name} — ${item.price.toFixed(2)} €\n`;if(item.details)message+=`   ${item.details}\n`});message+=`\n💰 ИТОГО: ${total.toFixed(2)} €\n\n📞 Свяжитесь со мной для подтверждения заказа.`;window.open(`https://wa.me/48793358760?text=${encodeURIComponent(message)}`,'_blank')}
+
+function openLoginModal(){document.getElementById('loginModal').classList.add('active')}
+function closeModal(id){document.getElementById(id).classList.remove('active')}
+function checkLogin(){if(document.getElementById('adminLogin').value==='admin'&&document.getElementById('adminPass').value==='Zevunor2026!'){closeModal('loginModal');['home','catalog','cart','category','about','reviews','contacts','constructor','constructor-choice','ideas','delivery','payment','returns','faq','howto','track','privacy','terms','account'].forEach(p=>document.getElementById('page-'+p).style.display='none');document.getElementById('page-admin').style.display='block';renderAdminSection('dashboard');document.getElementById('adminLogin').value='';document.getElementById('adminPass').value='';window.scrollTo(0,0)}else{alert('Неверно! Логин: admin, Пароль: Zevunor2026!')}}
+
+function showAccountSection(section,el){if(el){el.parentElement.querySelectorAll('li').forEach(i=>{i.style.background='';i.style.color='';i.style.fontWeight=''});el.style.background='#fff9e6';el.style.color='#0d1b2a';el.style.fontWeight='600'}renderAccountSection(section)}
+function renderAccountSection(section){const content=document.getElementById('accountContent');if(section==='orders'){content.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div style="font-size:22px;font-weight:bold">Мои заказы</div><div style="font-size:13px;color:#666;margin-top:5px">Здесь вы можете управлять своими заказами</div></div></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px"><div style="background:#f8f9fa;padding:18px;border-radius:10px;display:flex;align-items:center;gap:15px"><div style="width:44px;height:44px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;font-size:22px">📦</div><div><div style="font-size:22px;font-weight:bold;color:#0d1b2a">5</div><div style="font-size:12px;color:#666">Всего заказов</div></div></div><div style="background:#f8f9fa;padding:18px;border-radius:10px;display:flex;align-items:center;gap:15px"><div style="width:44px;height:44px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;font-size:22px">⏳</div><div><div style="font-size:22px;font-weight:bold;color:#0d1b2a">2</div><div style="font-size:12px;color:#666">В процессе</div></div></div><div style="background:#f8f9fa;padding:18px;border-radius:10px;display:flex;align-items:center;gap:15px"><div style="width:44px;height:44px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;font-size:22px">✓</div><div><div style="font-size:22px;font-weight:bold;color:#0d1b2a">3</div><div style="font-size:12px;color:#666">Доставлено</div></div></div><div style="background:#f8f9fa;padding:18px;border-radius:10px;display:flex;align-items:center;gap:15px"><div style="width:44px;height:44px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;font-size:22px">✕</div><div><div style="font-size:22px;font-weight:bold;color:#0d1b2a">0</div><div style="font-size:12px;color:#666">Отменено</div></div></div></div><div style="display:grid;grid-template-columns:2fr 1fr;gap:20px"><div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h3 style="font-size:18px">Последние заказы</h3><a style="color:#667eea;font-size:13px;cursor:pointer">Все заказы →</a></div><div style="border:1px solid #eee;border-radius:10px;padding:20px;margin-bottom:15px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;padding-bottom:15px;border-bottom:1px solid #f0f0f0"><div><span style="font-weight:bold;font-size:15px">№ ZV-2025-000123</span><span style="font-size:12px;color:#888;margin-left:10px">10.06.2025</span></div><span style="background:#fff3cd;color:#856404;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600">В процессе</span></div><div style="display:flex;gap:15px;align-items:center;margin-bottom:15px"><div style="width:70px;height:70px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px">🖼️</div><div style="flex:1"><div style="font-weight:600;font-size:14px;margin-bottom:4px">Фотомагниты 9×6 см</div><div style="font-size:12px;color:#888">3 шт.</div></div><div style="font-weight:bold;font-size:16px;color:#0d1b2a">11,70 €</div></div><div style="display:flex;justify-content:flex-end;gap:10px"><button style="background:white;border:1px solid #ddd;padding:8px 16px;border-radius:6px;font-size:13px;cursor:pointer">Подробнее</button><button style="background:#d4af37;color:#0d1b2a;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer">Повторить заказ</button></div></div><div style="border:1px solid #eee;border-radius:10px;padding:20px;margin-bottom:15px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;padding-bottom:15px;border-bottom:1px solid #f0f0f0"><div><span style="font-weight:bold;font-size:15px">№ ZV-2025-000118</span><span style="font-size:12px;color:#888;margin-left:10px">02.06.2025</span></div><span style="background:#e8f5e9;color:#1b5e20;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600">Доставлен</span></div><div style="display:flex;gap:15px;align-items:center;margin-bottom:15px"><div style="width:70px;height:70px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px">☕</div><div style="flex:1"><div style="font-weight:600;font-size:14px;margin-bottom:4px">Кружка с фото</div><div style="font-size:12px;color:#888">1 шт.</div></div><div style="font-weight:bold;font-size:16px;color:#0d1b2a">9,90 €</div></div><div style="display:flex;justify-content:flex-end;gap:10px"><button style="background:white;border:1px solid #ddd;padding:8px 16px;border-radius:6px;font-size:13px;cursor:pointer">Подробнее</button><button style="background:#d4af37;color:#0d1b2a;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer">Повторить заказ</button></div></div></div><div><div style="background:linear-gradient(135deg,#0d1b2a,#1a2d42);color:white;padding:25px;border-radius:12px;margin-bottom:20px"><h3 style="font-size:18px;margin-bottom:8px">В избранном</h3><p style="font-size:13px;opacity:.9;margin-bottom:15px">У вас 8 товаров<br>Сохраняйте понравившиеся товары, чтобы не потерять их.</p><button style="background:#d4af37;color:#0d1b2a;padding:10px 20px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer">Перейти в избранное →</button></div><h3 style="font-size:16px;margin-bottom:15px">Быстрые действия</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div style="padding:18px;border:1px solid #eee;border-radius:10px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px" onmouseover="this.style.borderColor='#d4af37';this.style.background='#fff9e6'" onmouseout="this.style.borderColor='#eee';this.style.background=''"><div style="font-size:24px">📋</div><div><strong style="display:block;font-size:14px;margin-bottom:3px">Повторить заказ</strong><span style="font-size:12px;color:#666">Сделайте заказ снова</span></div></div><div style="padding:18px;border:1px solid #eee;border-radius:10px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px" onmouseover="this.style.borderColor='#d4af37';this.style.background='#fff9e6'" onmouseout="this.style.borderColor='#eee';this.style.background=''"><div style="font-size:24px"></div><div><strong style="display:block;font-size:14px;margin-bottom:3px">Добавить адрес</strong><span style="font-size:12px;color:#666">Управление адресами</span></div></div><div style="padding:18px;border:1px solid #eee;border-radius:10px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px" onmouseover="this.style.borderColor='#d4af37';this.style.background='#fff9e6'" onmouseout="this.style.borderColor='#eee';this.style.background=''"><div style="font-size:24px">💬</div><div><strong style="display:block;font-size:14px;margin-bottom:3px">Написать в поддержку</strong><span style="font-size:12px;color:#666">Помощь и вопросы</span></div></div></div></div></div>`}else if(section==='addresses'){content.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div style="font-size:13px;color:#888;margin-bottom:5px">Личный кабинет › Адреса доставки</div><div style="font-size:22px;font-weight:bold">Адреса доставки</div></div><button style="background:#d4af37;color:#0d1b2a;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer">+ Добавить адрес</button></div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:15px"><div style="border:2px solid #d4af37;border-radius:10px;padding:20px;position:relative;background:#fffef5"><div style="position:absolute;top:15px;right:15px;background:#d4af37;color:#0d1b2a;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">По умолчанию</div><div style="font-weight:bold;font-size:15px;margin-bottom:10px">Основной адрес </div><div style="font-size:13px;color:#555;line-height:1.6;margin-bottom:12px">Иван Петров<br>C/ Mayor, 12, 08001 Barcelona<br>Испания</div><div style="font-size:13px;color:#333;margin-bottom:15px">+34 612 34 56 78</div><div style="display:flex;gap:10px"><div style="font-size:12px;color:#667eea;cursor:pointer">✏️ Редактировать</div></div></div><div style="border:1px solid #eee;border-radius:10px;padding:20px;position:relative"><div style="font-weight:bold;font-size:15px;margin-bottom:10px">Рабочий адрес</div><div style="font-size:13px;color:#555;line-height:1.6;margin-bottom:12px">Иван Петров<br>C/ Industria, 25, 08830 Sant Boi de Llobregat<br>Испания</div><div style="font-size:13px;color:#333;margin-bottom:15px">+34 612 34 56 78</div><div style="display:flex;gap:10px"><div style="font-size:12px;color:#667eea;cursor:pointer">✏️ Редактировать</div><div style="font-size:12px;color:#dc3545;cursor:pointer">️ Удалить</div></div></div></div>`}else if(section==='favorites'){content.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div style="font-size:13px;color:#888;margin-bottom:5px">Личный кабинет › Избранное</div><div style="font-size:22px;font-weight:bold">Избранное (8)</div></div><a style="color:#667eea;font-size:13px;cursor:pointer">Очистить все</a></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px">${products.slice(0,4).map(p=>{const imgHtml=p.img?`<img src="${p.img}" style="width:100%;height:100%;object-fit:cover">`:p.emoji;const stars='★'.repeat(Math.floor(p.rating||5));return `<div style="background:white;border:1px solid #eee;border-radius:10px;overflow:hidden;position:relative"><div style="position:absolute;top:10px;right:10px;width:28px;height:28px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.1);font-size:14px">♡</div><div style="height:150px;background:#eee;display:flex;align-items:center;justify-content:center;font-size:50px;overflow:hidden">${imgHtml}</div><div style="padding:12px"><div style="font-size:13px;font-weight:600;margin-bottom:5px">${p.name}</div><div style="font-size:11px;color:#d4af37;margin-bottom:8px">${stars} ${p.rating} (${p.reviews})</div><div style="font-size:16px;font-weight:bold;color:#0d1b2a;margin-bottom:10px">${p.price.toFixed(2).replace('.',',')} €</div><button style="width:100%;background:#0d1b2a;color:white;padding:8px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer" onclick="addToCart(${p.id})">В корзину</button></div></div>`}).join('')}</div>`}else if(section==='reviews'){content.innerHTML=`<div style="margin-bottom:25px"><div style="font-size:13px;color:#888;margin-bottom:5px">Личный кабинет › Отзывы</div><div style="font-size:22px;font-weight:bold">Мои отзывы</div></div><div style="display:flex;gap:10px;margin-bottom:20px"><div style="padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;background:#d4af37;color:#0d1b2a;font-weight:600">Все (2)</div><div style="padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;background:#f5f5f5">Опубликованные (2)</div><div style="padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;background:#f5f5f5">Ожидают ответа (0)</div></div><div style="border:1px solid #eee;border-radius:10px;padding:20px;margin-bottom:15px;display:flex;gap:15px"><div style="width:80px;height:80px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0">🖼️</div><div style="flex:1"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="font-weight:bold;font-size:14px">Фотомагниты 9×6 см</div><div style="font-size:12px;color:#888">12.06.2025</div></div><div style="color:#d4af37;font-size:13px;margin-bottom:8px">★★★★★</div><div style="font-size:13px;color:#555;line-height:1.6;margin-bottom:10px">Отличное качество! Магниты получились яркие и красивые. Очень доволен! Спасибо ZEVUNOR!</div><span style="display:inline-block;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600;background:#e8f5e9;color:#1b5e20">✓ Опубликован</span></div></div><div style="border:1px solid #eee;border-radius:10px;padding:20px;margin-bottom:15px;display:flex;gap:15px"><div style="width:80px;height:80px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0">☕</div><div style="flex:1"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="font-weight:bold;font-size:14px">Кружка с фото</div><div style="font-size:12px;color:#888">02.06.2025</div></div><div style="color:#d4af37;font-size:13px;margin-bottom:8px">★★★★★</div><div style="font-size:13px;color:#555;line-height:1.6;margin-bottom:10px">Качество на высоте! Доставка быстрая. Рекомендую!</div><span style="display:inline-block;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600;background:#e8f5e9;color:#1b5e20">✓ Опубликован</span></div></div>`}else if(section==='bonuses'){content.innerHTML=`<div style="margin-bottom:25px"><div style="font-size:13px;color:#888;margin-bottom:5px">Личный кабинет › Бонусы и скидки</div><div style="font-size:22px;font-weight:bold">Бонусы и скидки</div></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:25px"><div style="background:white;padding:22px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)"><div style="font-size:32px;font-weight:bold;color:#d4af37;margin-bottom:5px">127</div><div style="font-size:13px;color:#666;margin-bottom:8px">Бонусных баллов</div><div style="font-size:12px;color:#888">= 6.35 € скидки</div></div><div style="background:white;padding:22px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)"><div style="font-size:32px;font-weight:bold;color:#0d1b2a;margin-bottom:5px">3</div><div style="font-size:13px;color:#666">Активных промокода</div></div><div style="background:white;padding:22px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)"><div style="font-size:32px;font-weight:bold;color:#0d1b2a;margin-bottom:5px">15%</div><div style="font-size:13px;color:#666;margin-bottom:8px">Скидка именинника</div><div style="font-size:12px;color:#888">Действует до 15.12.2025</div></div><div style="background:white;padding:22px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)"><div style="font-size:32px;font-weight:bold;color:#0d1b2a;margin-bottom:5px">VIP</div><div style="font-size:13px;color:#666;margin-bottom:8px">Ваш статус</div><div style="font-size:12px;color:#888">До Platinum: ещё 200 €</div></div></div><div style="background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)"><div style="padding:20px;border-bottom:1px solid #eee;font-size:16px;font-weight:bold">Мои промокоды</div><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#fafafa"><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px;text-transform:uppercase">Промокод</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px;text-transform:uppercase">Скидка</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px;text-transform:uppercase">Условия</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px;text-transform:uppercase">Действует до</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px;text-transform:uppercase">Статус</th></tr></thead><tbody><tr><td style="padding:14px 20px;border-bottom:1px solid #f0f0f0"><b style="color:#667eea;font-family:monospace;font-size:14px">WELCOME10</b></td><td style="padding:14px 20px;border-bottom:1px solid #f0f0f0">10%</td><td style="padding:14px 20px;border-bottom:1px solid #f0f0f0">На первый заказ</td><td style="padding:14px 20px;border-bottom:1px solid #f0f0f0">31.12.2025</td><td style="padding:14px 20px;border-bottom:1px solid #f0f0f0"><span style="background:#e8f5e9;color:#1b5e20;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600">Активен</span></td></tr><tr><td style="padding:14px 20px;border-bottom:1px solid #f0f0f0"><b style="color:#667eea;font-family:monospace;font-size:14px">BIRTHDAY15</b></td><td style="padding:14px 20px;border-bottom:1px solid #f0f0f0">15%</td><td style="padding:14px 20px;border-bottom:1px solid #f0f0f0">В день рождения</td><td style="padding:14px 20px;border-bottom:1px solid #f0f0f0">15.12.2025</td><td style="padding:14px 20px;border-bottom:1px solid #f0f0f0"><span style="background:#e8f5e9;color:#1b5e20;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600">Активен</span></td></tr><tr><td style="padding:14px 20px"><b style="color:#667eea;font-family:monospace;font-size:14px">SUMMER20</b></td><td style="padding:14px 20px">20%</td><td style="padding:14px 20px">Летняя акция</td><td style="padding:14px 20px">30.09.2025</td><td style="padding:14px 20px"><span style="background:#e8f5e9;color:#1b5e20;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600">Активен</span></td></tr></tbody></table></div>`}else if(section==='settings'){content.innerHTML=`<div style="margin-bottom:25px"><div style="font-size:13px;color:#888;margin-bottom:5px">Личный кабинет › Настройки</div><div style="font-size:22px;font-weight:bold">Настройки профиля</div></div><div style="background:white;padding:25px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:20px"><h3 style="font-size:16px;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #eee">Личные данные</h3><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#333">Имя</label><input type="text" value="Иван Петров" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit"></div><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#333">Email</label><input type="email" value="ivan@example.com" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit"></div><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#333">Телефон</label><input type="tel" value="+34 612 34 56 78" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit"></div><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#333">Дата рождения</label><input type="date" value="1990-05-15" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit"></div></div><div style="background:white;padding:25px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:20px"><h3 style="font-size:16px;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #eee">Уведомления</h3><div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0"><div><div style="font-size:14px">Email-уведомления о заказах</div><div style="font-size:12px;color:#888;margin-top:3px">Получать статус заказа на почту</div></div><div style="width:44px;height:24px;background:#d4af37;border-radius:12px;position:relative;cursor:pointer" onclick="this.style.background=this.style.background==='rgb(212, 175, 55)'?'#ddd':'#d4af37'"><div style="position:absolute;width:20px;height:20px;background:white;border-radius:50%;top:2px;right:2px;box-shadow:0 2px 4px rgba(0,0,0,.2)"></div></div></div><div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0"><div><div style="font-size:14px">SMS-уведомления</div><div style="font-size:12px;color:#888;margin-top:3px">Уведомления о доставке</div></div><div style="width:44px;height:24px;background:#d4af37;border-radius:12px;position:relative;cursor:pointer" onclick="this.style.background=this.style.background==='rgb(212, 175, 55)'?'#ddd':'#d4af37'"><div style="position:absolute;width:20px;height:20px;background:white;border-radius:50%;top:2px;right:2px;box-shadow:0 2px 4px rgba(0,0,0,.2)"></div></div></div><div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0"><div><div style="font-size:14px">Маркетинговые рассылки</div><div style="font-size:12px;color:#888;margin-top:3px">Акции и специальные предложения</div></div><div style="width:44px;height:24px;background:#ddd;border-radius:12px;position:relative;cursor:pointer" onclick="this.style.background=this.style.background==='rgb(221, 221, 221)'?'#d4af37':'#ddd'"><div style="position:absolute;width:20px;height:20px;background:white;border-radius:50%;top:2px;left:2px;box-shadow:0 2px 4px rgba(0,0,0,.2)"></div></div></div></div><button style="background:#d4af37;color:#0d1b2a;padding:12px 30px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer" onclick="alert('✓ Настройки сохранены!')">Сохранить изменения</button>`}}
+
+function showAdminSection(section,el){if(el){el.parentElement.querySelectorAll('li').forEach(i=>{i.style.background='';i.style.borderLeft=''});el.style.background='#1a2d42';el.style.borderLeft='3px solid #d4af37'}renderAdminSection(section)}
+function renderAdminSection(section){const content=document.getElementById('adminContent');if(section==='dashboard'){content.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div style="font-size:24px;font-weight:bold">Главная</div><div style="font-size:13px;color:#666;margin-top:5px">Обзор вашего бизнеса</div></div></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:25px"><div style="background:white;padding:22px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><div style="width:48px;height:48px;border-radius:12px;background:#fff3cd;display:flex;align-items:center;justify-content:center;font-size:24px">🛒</div></div><div style="font-size:32px;font-weight:bold;color:#0d1b2a;margin-bottom:5px">12</div><div style="font-size:13px;color:#666;margin-bottom:8px">Новые заказы</div><div style="font-size:12px;color:#28a745;font-weight:600">↑ +33%</div></div><div style="background:white;padding:22px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><div style="width:48px;height:48px;border-radius:12px;background:#e3f2fd;display:flex;align-items:center;justify-content:center;font-size:24px">📦</div></div><div style="font-size:32px;font-weight:bold;color:#0d1b2a;margin-bottom:5px">8</div><div style="font-size:13px;color:#666;margin-bottom:8px">В обработке</div><div style="font-size:12px;color:#28a745;font-weight:600">↑ +60%</div></div><div style="background:white;padding:22px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><div style="width:48px;height:48px;border-radius:12px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:24px">🚚</div></div><div style="font-size:32px;font-weight:bold;color:#0d1b2a;margin-bottom:5px">5</div><div style="font-size:13px;color:#666;margin-bottom:8px">Доставляются</div><div style="font-size:12px;color:#28a745;font-weight:600">↑ +25%</div></div><div style="background:white;padding:22px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><div style="width:48px;height:48px;border-radius:12px;background:#f3e5f5;display:flex;align-items:center;justify-content:center;font-size:24px">✓</div></div><div style="font-size:32px;font-weight:bold;color:#0d1b2a;margin-bottom:5px">28</div><div style="font-size:13px;color:#666;margin-bottom:8px">Завершено</div><div style="font-size:12px;color:#28a745;font-weight:600">↑ +47%</div></div></div><div style="background:white;padding:22px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)"><div style="font-size:16px;font-weight:bold;margin-bottom:20px">Всего заказов: <span style="color:#d4af37">69</span> • Выручка: <span style="color:#d4af37">1 357 €</span></div></div>`}else if(section==='orders'){content.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div style="font-size:24px;font-weight:bold">Управление заказами</div><div style="font-size:13px;color:#666;margin-top:5px">Все заказы вашего магазина</div></div><button style="background:#d4af37;color:#0d1b2a;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer">+ Новый заказ</button></div><div style="background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#fafafa"><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">№ заказа</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Дата</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Клиент</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Товар</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Статус</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Сумма</th></tr></thead><tbody><tr style="border-bottom:1px solid #f0f0f0"><td style="padding:14px 20px"><b>ZV-2025-000128</b></td><td style="padding:14px 20px">16.09.2025</td><td style="padding:14px 20px">Иван Петров</td><td style="padding:14px 20px">Фотомагниты 9×6 см</td><td style="padding:14px 20px"><span style="background:#fff3cd;color:#856404;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600">В обработке</span></td><td style="padding:14px 20px"><b>11,80 €</b></td></tr><tr style="border-bottom:1px solid #f0f0f0"><td style="padding:14px 20px"><b>ZV-2025-000127</b></td><td style="padding:14px 20px">16.09.2025</td><td style="padding:14px 20px">Анна Сидорова</td><td style="padding:14px 20px">Кружка с фото</td><td style="padding:14px 20px"><span style="background:#e3f2fd;color:#0d47a1;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600">Доставка</span></td><td style="padding:14px 20px"><b>9,90 €</b></td></tr><tr><td style="padding:14px 20px"><b>ZV-2025-000126</b></td><td style="padding:14px 20px">16.09.2025</td><td style="padding:14px 20px">Мария Иванова</td><td style="padding:14px 20px">Термос с логотипом</td><td style="padding:14px 20px"><span style="background:#ffe0b2;color:#e65100;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600">Изготовление</span></td><td style="padding:14px 20px"><b>14,90 €</b></td></tr></tbody></table></div>`}else if(section==='products'){content.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div style="font-size:24px;font-weight:bold">Управление товарами</div></div><button style="background:#d4af37;color:#0d1b2a;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer" onclick="alert('Форма добавления товара')">+ Добавить товар</button></div><div style="background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#fafafa"><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Изображение</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Название</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Категория</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Цена</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Действия</th></tr></thead><tbody>${products.map((p,i)=>`<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:14px 20px"><div style="width:50px;height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:24px;overflow:hidden">${p.img?`<img src="${p.img}" style="width:100%;height:100%;object-fit:cover">`:p.emoji}</div></td><td style="padding:14px 20px"><b>${p.name}</b></td><td style="padding:14px 20px">${p.category}</td><td style="padding:14px 20px"><b>${p.price.toFixed(2).replace('.',',')} €</b></td><td style="padding:14px 20px"><div style="display:flex;gap:8px"><div style="width:28px;height:28px;border-radius:6px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="editProduct(${i})">✏️</div><div style="width:28px;height:28px;border-radius:6px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="deleteProduct(${i})">🗑️</div></div></td></tr>`).join('')}</tbody></table></div>`}else if(section==='clients'){content.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div style="font-size:24px;font-weight:bold">Список клиентов</div></div></div><div style="background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#fafafa"><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Имя</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Email</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Телефон</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Заказы</th></tr></thead><tbody><tr style="border-bottom:1px solid #f0f0f0"><td style="padding:14px 20px"><b>Иван Петров</b></td><td style="padding:14px 20px">ivan@mail.com</td><td style="padding:14px 20px">+34 612 34 56 78</td><td style="padding:14px 20px"><b>3</b></td></tr><tr style="border-bottom:1px solid #f0f0f0"><td style="padding:14px 20px"><b>Анна Сидорова</b></td><td style="padding:14px 20px">anna@mail.com</td><td style="padding:14px 20px">+34 655 22 33 11</td><td style="padding:14px 20px"><b>5</b></td></tr><tr><td style="padding:14px 20px"><b>Мария Иванова</b></td><td style="padding:14px 20px">maria@mail.com</td><td style="padding:14px 20px">+34 667 11 22 33</td><td style="padding:14px 20px"><b>2</b></td></tr></tbody></table></div>`}else if(section==='reviews-admin'){content.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div style="font-size:24px;font-weight:bold">Отзывы клиентов</div></div></div><div style="background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#fafafa"><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Клиент</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Оценка</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Отзыв</th><th style="padding:14px 20px;text-align:left;font-weight:600;color:#666;font-size:12px">Статус</th></tr></thead><tbody>${reviews.map(r=>`<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:14px 20px"><b>${r.name}</b></td><td style="padding:14px 20px;color:#d4af37">${'★'.repeat(r.rating)}</td><td style="padding:14px 20px;max-width:300px;font-size:12px">${r.text.substring(0,60)}...</td><td style="padding:14px 20px"><span style="background:#e8f5e9;color:#1b5e20;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600">Опубликован</span></td></tr>`).join('')}</tbody></table></div>`}else if(section==='editor'){content.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div style="font-size:24px;font-weight:bold">✏️ Быстрый редактор</div><div style="font-size:13px;color:#666;margin-top:5px">Редактируйте контент, картинки, цвета и текст магазина</div></div><button style="background:#d4af37;color:#0d1b2a;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer" onclick="saveSiteChanges()">💾 Сохранить</button></div><div style="background:white;padding:25px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:20px"><h3 style="font-size:18px;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #eee">🎨 Главный баннер</h3><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Верхний заголовок</label><input type="text" id="editHeroTop" value="CREA • REGALA • INSPIRA" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px"></div><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Главный заголовок</label><input type="text" id="editHeroTitle1" value="REGALOS Y SOUVENIRS" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px"></div><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Золотой текст</label><input type="text" id="editHeroGold" value="PERSONALIZADOS" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px"></div><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Описание</label><textarea id="editHeroDesc" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;min-height:80px;font-family:inherit">Fotos, logotipos, nombres, ideas: los transformamos en productos únicos y de calidad.</textarea></div><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Фоновое изображение (URL)</label><input type="text" id="editHeroBg" value="https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=1600&q=80" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px"><input type="file" id="editHeroFile" accept="image/*" onchange="handleHeroImageUpload(this)" style="margin-top:6px"></div></div><button style="background:#d4af37;color:#0d1b2a;padding:14px 30px;border-radius:8px;font-weight:600;font-size:16px;cursor:pointer;width:100%" onclick="saveSiteChanges()">💾 Сохранить все изменения</button>`}else if(section==='full-editor'){content.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div style="font-size:24px;font-weight:bold">🎨 Полный редактор</div><div style="font-size:13px;color:#666;margin-top:5px">Редактируйте каждую страницу, каждый блок</div></div></div><div style="background:white;padding:25px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)"><h3 style="font-size:18px;margin-bottom:15px">Выберите страницу для редактирования:</h3><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px"><div style="padding:15px;background:#f8f9fa;border-radius:8px;cursor:pointer;text-align:center" onclick="alert('Редактор страницы: Главная')">🏠 Главная</div><div style="padding:15px;background:#f8f9fa;border-radius:8px;cursor:pointer;text-align:center" onclick="alert('Редактор страницы: О нас')">ℹ️ О нас</div><div style="padding:15px;background:#f8f9fa;border-radius:8px;cursor:pointer;text-align:center" onclick="alert('Редактор страницы: Контакты')">📞 Контакты</div><div style="padding:15px;background:#f8f9fa;border-radius:8px;cursor:pointer;text-align:center" onclick="alert('Редактор страницы: Доставка')"> Доставка</div><div style="padding:15px;background:#f8f9fa;border-radius:8px;cursor:pointer;text-align:center" onclick="alert('Редактор страницы: Оплата')">💳 Оплата</div><div style="padding:15px;background:#f8f9fa;border-radius:8px;cursor:pointer;text-align:center" onclick="alert('Редактор страницы: Возврат')">↩️ Возврат</div></div></div>`}else if(section==='admin-settings'){content.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div style="font-size:24px;font-weight:bold">Настройки</div></div></div><div style="background:white;padding:25px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:20px"><h3 style="font-size:16px;margin-bottom:20px">Общие настройки</h3><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Название магазина</label><input type="text" value="ZEVUNOR" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px"></div><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Email</label><input type="email" value="info@zevunor.com" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px"></div><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">WhatsApp</label><input type="text" value="+48793358760" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px"></div></div><button style="background:#d4af37;color:#0d1b2a;padding:12px 30px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;margin-top:20px" onclick="alert('✓ Настройки сохранены!')">Сохранить изменения</button>`}}
+
+function editProduct(index){const p=products[index];const newName=prompt('Название товара:',p.name);if(newName===null)return;const newPrice=prompt('Цена (€):',p.price);if(newPrice===null)return;const newImg=prompt('Ссылка на картинку (URL):',p.img||'');p.name=newName;p.price=parseFloat(newPrice);if(newImg)p.img=newImg;localStorage.setItem('zev_products',JSON.stringify(products));alert('✓ Товар обновлён!');renderAdminSection('products')}
+function deleteProduct(index){if(confirm('Удалить товар "'+products[index].name+'"?')){products.splice(index,1);localStorage.setItem('zev_products',JSON.stringify(products));renderAdminSection('products')}}
+function handleHeroImageUpload(input){if(input.files&&input.files[0]){const reader=new FileReader();reader.onload=function(e){document.getElementById('editHeroBg').value=e.target.result;alert('✓ Изображение загружено!')};reader.readAsDataURL(input.files[0])}}
+function saveSiteChanges(){const siteSettings={heroTop:document.getElementById('editHeroTop')?.value||'',heroTitle1:document.getElementById('editHeroTitle1')?.value||'',heroGold:document.getElementById('editHeroGold')?.value||'',heroDesc:document.getElementById('editHeroDesc')?.value||'',heroBg:document.getElementById('editHeroBg')?.value||''};localStorage.setItem('zev_site_settings',JSON.stringify(siteSettings));alert('✓ Все изменения сохранены!')}
+function applySiteSettings(){const settings=JSON.parse(localStorage.getItem('zev_site_settings')||'{}');if(Object.keys(settings).length===0)return;if(settings.heroTop){const el=document.querySelector('.hero-subtitle-top');if(el)el.textContent=settings.heroTop}if(settings.heroTitle1){const h1=document.querySelector('.hero h1');if(h1)h1.innerHTML=settings.heroTitle1+'<br><span class="gold">'+(settings.heroGold||'')+'</span>'}if(settings.heroDesc){const el=document.querySelector('.hero .description');if(el)el.textContent=settings.heroDesc}if(settings.heroBg){const hero=document.querySelector('.hero');if(hero)hero.style.background=`linear-gradient(rgba(13,27,42,.75),rgba(13,27,42,.55)),url('${settings.heroBg}') center/cover`}}
+
+function init(){const langLabels={ru:'🇷🇺 RU',en:'🇧 EN',zh:'🇨🇳 ZH',de:'🇩 DE',fr:'🇫🇷 FR',es:'🇪🇸 ES'};document.getElementById('langCurrent').innerHTML=(langLabels[currentLang]||'🇷🇺 RU')+' ▾';document.querySelectorAll('.lang-option').forEach(el=>{const lang=el.getAttribute('onclick').match(/'(\w+)'/)[1];el.classList.toggle('active',lang===currentLang)});applyTranslations();renderCategories();renderProducts('popularProducts',products.slice(0,6));renderReviews('reviewsList',reviews);renderSocialGallery('socialGallery');renderSocialGallery('socialGallery2');renderIdeas();renderConstructorTypes();applySiteSettings()}
+init();
+</script>
+
+<!-- ПЛАВАЮЩИЕ КНОПКИ WHATSAPP И TELEGRAM -->
+<style>
+.float-btn{position:fixed;right:25px;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;color:white;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,.3);z-index:9999;transition:all .3s ease}
+.float-btn:hover{transform:scale(1.15);box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.float-whatsapp{bottom:25px;background:linear-gradient(135deg,#25D366,#128C7E);animation:pulse-wa 2s infinite}
+.float-telegram{bottom:95px;background:linear-gradient(135deg,#0088cc,#006699);animation:pulse-tg 2s infinite}
+@keyframes pulse-wa{0%{box-shadow:0 0 0 0 rgba(37,211,102,.7)}70%{box-shadow:0 0 0 15px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+@keyframes pulse-tg{0%{box-shadow:0 0 0 0 rgba(0,136,204,.7)}70%{box-shadow:0 0 0 15px rgba(0,136,204,0)}100%{box-shadow:0 0 0 0 rgba(0,136,204,0)}}
+</style>
+
+<a href="https://wa.me/48793358760?text=Здравствуйте!%20Хочу%20узнать%20о%20товарах%20ZEVUNOR" target="_blank" class="float-btn float-whatsapp" title="WhatsApp">💬</a>
+<a href="https://t.me/zevunor_shop_bot" target="_blank" class="float-btn float-telegram" title="Telegram">✈️</a>
+</body>
+</html>
